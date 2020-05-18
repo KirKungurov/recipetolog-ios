@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Recipe Page View Controller-->
+        <scene sceneID="p85-aB-gzN">
+            <objects>
+                <viewController storyboardIdentifier="RecipePageViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="c6m-BI-64K" customClass="RecipePageViewController" customModule="Dish_Recepiest" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="YKC-Ru-6UM">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0B8-PG-wQg">
+                                <rect key="frame" x="40" y="69" width="334" height="334"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="0B8-PG-wQg" secondAttribute="height" id="twt-HH-ALs"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZdU-48-ix9">
+                                <rect key="frame" x="5" y="413" width="404" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="3w9-dV-g4Z"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="nJo-q2-ALK">
+                                <rect key="frame" x="182.5" y="468" width="51" height="31"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recipe" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="npW-fP-Db9">
+                                <rect key="frame" x="120.5" y="468" width="52" height="31"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ingredients" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TKZ-tQ-xBg">
+                                <rect key="frame" x="241.5" y="468" width="86" height="31"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="RSZ-1q-3zw">
+                                <rect key="frame" x="5" y="504" width="404" height="353"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="dhE-Lt-7ll" firstAttribute="bottom" secondItem="RSZ-1q-3zw" secondAttribute="bottom" constant="5" id="Afj-LQ-of5"/>
+                            <constraint firstItem="nJo-q2-ALK" firstAttribute="top" secondItem="ZdU-48-ix9" secondAttribute="bottom" constant="5" id="CFl-It-08J"/>
+                            <constraint firstItem="RSZ-1q-3zw" firstAttribute="top" secondItem="nJo-q2-ALK" secondAttribute="bottom" constant="5" id="DMf-pC-P3J"/>
+                            <constraint firstItem="TKZ-tQ-xBg" firstAttribute="height" secondItem="npW-fP-Db9" secondAttribute="height" id="FV8-A5-Oa1"/>
+                            <constraint firstItem="nJo-q2-ALK" firstAttribute="height" secondItem="npW-fP-Db9" secondAttribute="height" id="FWG-5I-Z1I"/>
+                            <constraint firstItem="0B8-PG-wQg" firstAttribute="top" secondItem="dhE-Lt-7ll" secondAttribute="top" constant="25" id="GSe-SL-pLz"/>
+                            <constraint firstItem="TKZ-tQ-xBg" firstAttribute="centerY" secondItem="npW-fP-Db9" secondAttribute="centerY" id="Hop-E0-75P"/>
+                            <constraint firstItem="dhE-Lt-7ll" firstAttribute="trailing" secondItem="0B8-PG-wQg" secondAttribute="trailing" constant="40" id="KeR-uA-fCe"/>
+                            <constraint firstItem="TKZ-tQ-xBg" firstAttribute="leading" secondItem="nJo-q2-ALK" secondAttribute="trailing" constant="10" id="TKW-o2-JCd"/>
+                            <constraint firstItem="RSZ-1q-3zw" firstAttribute="leading" secondItem="dhE-Lt-7ll" secondAttribute="leading" constant="5" id="VJo-oG-ogR"/>
+                            <constraint firstItem="nJo-q2-ALK" firstAttribute="leading" secondItem="npW-fP-Db9" secondAttribute="trailing" constant="10" id="VuT-kV-z6h"/>
+                            <constraint firstItem="0B8-PG-wQg" firstAttribute="leading" secondItem="dhE-Lt-7ll" secondAttribute="leading" constant="40" id="arW-uk-hwW"/>
+                            <constraint firstItem="nJo-q2-ALK" firstAttribute="centerX" secondItem="YKC-Ru-6UM" secondAttribute="centerX" id="mXa-gk-9ly"/>
+                            <constraint firstItem="ZdU-48-ix9" firstAttribute="leading" secondItem="dhE-Lt-7ll" secondAttribute="leading" constant="5" id="nCe-fj-6Sh"/>
+                            <constraint firstItem="dhE-Lt-7ll" firstAttribute="trailing" secondItem="ZdU-48-ix9" secondAttribute="trailing" constant="5" id="nfB-gb-RYA"/>
+                            <constraint firstItem="nJo-q2-ALK" firstAttribute="centerY" secondItem="npW-fP-Db9" secondAttribute="centerY" id="s2h-Ib-w9x"/>
+                            <constraint firstItem="dhE-Lt-7ll" firstAttribute="trailing" secondItem="RSZ-1q-3zw" secondAttribute="trailing" constant="5" id="sp7-a3-LlE"/>
+                            <constraint firstItem="ZdU-48-ix9" firstAttribute="top" secondItem="0B8-PG-wQg" secondAttribute="bottom" constant="10" id="umN-ke-e52"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="dhE-Lt-7ll"/>
+                    </view>
+                    <connections>
+                        <outlet property="recipeDescription" destination="RSZ-1q-3zw" id="5pk-8q-4Jm"/>
+                        <outlet property="recipeImage" destination="0B8-PG-wQg" id="ydM-Zo-M3y"/>
+                        <outlet property="recipeName" destination="ZdU-48-ix9" id="SI3-Zh-kN8"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jL6-fq-IY0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1278" y="170"/>
+        </scene>
+    </scenes>
+</document>
