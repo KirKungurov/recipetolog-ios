@@ -11,9 +11,9 @@ import Kingfisher
 
 struct RecipeViewModel {
     
-    private var recipe: RecipeInfo
+    private var recipe: Recipe
     
-    init(recipe: RecipeInfo){
+    init(recipe: Recipe){
         self.recipe = recipe
     }
 }

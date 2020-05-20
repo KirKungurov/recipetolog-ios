@@ -17,27 +17,49 @@ final class RecipeRepositoryImpl: RecipeRepository {
         }
     }
 
-    func save(_ recipes: [RecipeInfo]) {
+    func save(_ recipes: [Recipe]) {
+        for recipe in recipes{
+            var recipeIngedientsLinks = [RecipeIngredientRealm]()
+            var ingredients = [IngredientRealm]()
+            for ingredientContainer in recipe.ingredients{
+                ingredients.append(IngredientRealm.init(ingredientInfo: ingredientContainer.ingredient))
+                recipeIngedientsLinks.append(RecipeIngredientRealm.init(recipeId: recipe.id, ingredientId: ingredientContainer.ingredient.id, ingredientName: ingredientContainer.ingredient.name, ingredientAmout: ingredientContainer.amount))
+            }
+            
+            try? realm.write {
+                realm.add(ingredients, update: .modified)
+                realm.add(recipeIngedientsLinks, update: .modified)
+            }
+        }
         let recipesObj = recipes.map(RecipeRealm.init(recipe:))
-//        for recipe in recipes{
-//            var recipeIngedientsLinks = [RecipeIngredientRealm]()
-//            for ingredientContainer in recipe.ingredients{
-//                recipeIngedientsLinks.append(RecipeIngredientRealm.init(recipeId: recipe.id, ingredientId: ingredientContainer.ingredient.id))
-//            }
-//        }
         try? realm.write {
             realm.add(recipesObj, update: .modified)
         }
     }
 
     func getAllRecipes() -> Results<RecipeRealm> {
-        realm.objects(RecipeRealm.self)
+        return realm.objects(RecipeRealm.self)
     }
     
-    func getRecipesWithIngrient(ingridients: String) -> Results<RecipeRealm> {
-        //SQL injection
-    
-        realm.objects(RecipeRealm.self).filter("label is not null")
+    func getRecipesWithIngrient(ingridients: [String]) -> Results<RecipeRealm> {
+        var recipeWithIngredients = realm.objects(RecipeIngredientRealm.self).makeIterator()
+        var tmp: [Int: [String]] = [:]
+        while let ingredient = recipeWithIngredients.next() {
+            if tmp.keys.contains(ingredient.recipeId){
+                tmp.updateValue(tmp[ingredient.recipeId]!+[ingredient.ingredientName], forKey: ingredient.recipeId)
+            } else {
+                tmp[ingredient.recipeId] = [ingredient.ingredientName]
+            }
+        }
+        var results: [Int] = []
+        for recipe in tmp.keys{
+            if let ingrs = tmp[recipe] {
+                if Set(ingridients).isSubset(of: ingrs){
+                    results.append(recipe)
+                }
+            }
+        }
+        return realm.objects(RecipeRealm.self).filter("recipeId IN %@", Array(results))
     }
 }
 

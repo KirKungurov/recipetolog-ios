@@ -15,19 +15,18 @@ class RecipeRealm: Object{
     @objc dynamic var imageUrl: String? = ""
     @objc dynamic var recipeDescription: String = ""
         
-    //TODO заменить на id
     override class func primaryKey() -> String? {
         "recipeId"
     }
 }
 
 extension RecipeRealm {
-    var recipe: RecipeInfo{
+    var recipe: Recipe{
         //TODO ingredientLines хранение
-        RecipeInfo(id: recipeId, source: source, name: name, imageUrl: imageUrl, description: recipeDescription, ingredients: [], directions: [])
+        Recipe(id: recipeId, source: source, name: name, imageUrl: imageUrl, description: recipeDescription, ingredients: [], directions: [])
     }
     
-    convenience init(recipe: RecipeInfo){
+    convenience init(recipe: Recipe){
         self.init()
         self.recipeId = recipe.id
         self.source = recipe.source

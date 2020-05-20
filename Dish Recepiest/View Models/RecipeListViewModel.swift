@@ -12,7 +12,7 @@ protocol RecipeListViewModelProtocol {
     typealias RecipesCompletion = ([RecipeViewModel]?) -> Void
 
     var onRecipesChanged: (([RecipeViewModel]) -> Void)? { get set } 
-    func reloadRecipes(ingredients: String)
+    func reloadRecipes(ingredients: [String])
     func loadMore()
 }
 
@@ -26,14 +26,14 @@ class RecipeListViewModel: RecipeListViewModelProtocol {
     }
     private var from: Int = 0
     private var count: Int = 20
-    private var ingredients: String = ""
+    private var ingredients: [String] = []
     private var nextUrl:  URL? {
         var components = URLComponents()
         components.scheme = "https"
         components.host = "recipetolog.herokuapp.com"
         components.path = "/recipes/with-all-these-ingredients"
         components.queryItems = [
-            URLQueryItem(name: "ing", value: self.ingredients.trimmingCharacters(in: .punctuationCharacters)),
+            URLQueryItem(name: "ing", value: self.ingredients.joined(separator: ",").trimmingCharacters(in: .punctuationCharacters)),
             URLQueryItem(name: "from", value: "\(self.from)"),
             URLQueryItem(name: "count", value: "\(self.count)")
         ]
@@ -42,11 +42,13 @@ class RecipeListViewModel: RecipeListViewModelProtocol {
     
     var onRecipesChanged: (([RecipeViewModel]) -> Void)?
     
-    func reloadRecipes(ingredients: String){
+    func reloadRecipes(ingredients: [String]){
         self.ingredients = ingredients
         self.from = 0
         self.recipesVM = []
-        recipeService.getRecipes(nextUrl: nextUrl){
+//        Для не кэширования раскоментировать
+        recipeFacade.getRecipes(nextUrl: nextUrl, ingredients: self.ingredients){
+//        recipeService.getRecipes(nextUrl: nextUrl){
             guard let newRecipes = $0 else { return }
             self.recipesVM = newRecipes.map{RecipeViewModel(recipe: $0)}
         }
@@ -54,13 +56,14 @@ class RecipeListViewModel: RecipeListViewModelProtocol {
     }
     
     func loadMore() {
-        //переделать на фасад для кэширования
-        recipeService.getRecipes(nextUrl: nextUrl){
+//          Для не кэширования раскоментировать
+          recipeFacade.getRecipes(nextUrl: nextUrl, ingredients: self.ingredients){
+//            recipeService.getRecipes(nextUrl: nextUrl){
             guard let newRecipes = $0 else { return }
             if newRecipes.count != 0 {
                 self.from += self.count
             }
-            self.recipesVM.append(contentsOf: newRecipes.map{RecipeViewModel(recipe: $0)})
+            self.recipesVM = newRecipes.map{RecipeViewModel(recipe: $0)}
         }
     }
 }

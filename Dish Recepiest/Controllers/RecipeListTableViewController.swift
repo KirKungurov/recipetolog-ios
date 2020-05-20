@@ -33,7 +33,7 @@ class RecipeListTableViewController: UIViewController{
         viewModel.onRecipesChanged = { [unowned self] in
             self.recipesVM = $0
         }
-        viewModel.reloadRecipes(ingredients: self.ingredients)
+        viewModel.reloadRecipes(ingredients: self.ingredients.components(separatedBy: ","))
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         addIngredientImage.isUserInteractionEnabled = true
@@ -47,7 +47,7 @@ class RecipeListTableViewController: UIViewController{
         guard let newIngredient = self.ingredientsTextField.text else { return }
         self.ingredients += newIngredient + ","
         self.ingredientsTextField.text = ""
-        viewModel.reloadRecipes(ingredients: self.ingredients)
+        viewModel.reloadRecipes(ingredients: self.ingredients.trimmingCharacters(in: .punctuationCharacters).components(separatedBy: ","))
     }
 }
 

@@ -9,7 +9,7 @@
 import Foundation
 
 struct Response<T:Decodable>{
-    let recipes: [RecipeInfo]
+    let recipes: [Recipe]
 }
 
 extension Response: Decodable {}

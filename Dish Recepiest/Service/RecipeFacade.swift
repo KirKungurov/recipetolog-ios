@@ -8,6 +8,6 @@
 import Foundation
 
 protocol RecipeFacade {
-    typealias OnUpdateRecipes = ([RecipeInfo]?) -> Void
-    func getRecipes(nextUrl: URL?, completion: @escaping OnUpdateRecipes)
+    typealias OnUpdateRecipes = ([Recipe]?) -> Void
+    func getRecipes(nextUrl: URL?, ingredients: [String], completion: @escaping OnUpdateRecipes)
 }
