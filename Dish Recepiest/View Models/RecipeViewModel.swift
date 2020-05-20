@@ -28,16 +28,27 @@ extension RecipeViewModel{
         return URL(string: urlToImage)
     }
     
-//    public var recipeUrl: URL? {
-//        URL(string: self.recipe.)
-//    }
+    public var source: URL? {
+        guard let source = recipe.source else { return nil }
+        return URL(string: source)
+    }
     
     public var description: String{
         return recipe.description
     }
+
     public var ingredients: String{
-        return "aaa"
-//        recipe.ingredientLines.joined(separator: "\n").trimmingCharacters(in: .whitespacesAndNewlines)
+        var ingredients = [String]()
+        for ingredient in recipe.ingredients{
+            let tmp = "- " + ingredient.ingredient.name + ": " + ingredient.amount
+            ingredients.append(tmp)
+        }
+        return ingredients.joined(separator: "\n").trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+    
+    //Костыль
+    public var directions: String{
+        recipe.directions.joined(separator: "\n-").trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
 

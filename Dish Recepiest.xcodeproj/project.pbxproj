@@ -171,8 +171,8 @@
 			children = (
 				9548D2B42473F07300143FAB /* Realm */,
 				959CF65B2464AAE2007487FD /* RecipeContainer.swift */,
-				9548D2962471597500143FAB /* Response.swift */,
 				9548D2B52473F0E500143FAB /* IngredientContainer.swift */,
+				9548D2962471597500143FAB /* Response.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";

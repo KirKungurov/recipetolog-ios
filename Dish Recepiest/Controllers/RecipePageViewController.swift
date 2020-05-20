@@ -17,9 +17,9 @@ class RecipePageViewController: UIViewController{
     
     @IBAction func `switch`(_ sender: UISwitch){
         if (sender.isOn == true) {
-            switchTextLabel.text = self.recipe?.ingredients
+            switchTextLabel.text = self.recipe!.    
         } else {
-            switchTextLabel.text = self.recipe?.description
+            switchTextLabel.text = self.recipe!.directions
 
         }
     }
@@ -27,7 +27,7 @@ class RecipePageViewController: UIViewController{
         super.viewDidLoad()
         guard let recipe = self.recipe else { return }
         recipeDescription.text = recipe.description
-        switchTextLabel.text = recipe.description
+        switchTextLabel.text = recipe.directions
         recipeImage.kf.setImage(
             with: recipe.imageUrl)
     }

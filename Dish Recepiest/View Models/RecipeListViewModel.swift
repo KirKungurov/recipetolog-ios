@@ -61,7 +61,6 @@ class RecipeListViewModel: RecipeListViewModelProtocol {
                 self.from += self.count
             }
             self.recipesVM.append(contentsOf: newRecipes.map{RecipeViewModel(recipe: $0)})
-//            self.recipesVM = newRecipes.map{RecipeViewModel(recipe: $0)}
         }
     }
 }
