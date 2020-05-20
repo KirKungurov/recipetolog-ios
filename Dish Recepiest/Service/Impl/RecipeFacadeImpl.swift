@@ -22,12 +22,11 @@ final class RecipeFacadeImpl: RecipeFacade{
     func getRecipes(nextUrl: URL?, completion: @escaping OnUpdateRecipes) {
         recipeService.getRecipes(nextUrl: nextUrl){
             guard let recipes = $0 else { return }
-            let tmp = recipes.map{$0.recipe}
+            let tmp = recipes.map{$0}
             self.recipeRepository.save(tmp)
         }
-        let recipes = recipeRepository.getRecipes()
+        let recipes = recipeRepository.getAllRecipes()
         recipeToken = recipes.observe { _ in
-            print(recipes.count)
             completion(recipes.map {$0.recipe})
         }
     }

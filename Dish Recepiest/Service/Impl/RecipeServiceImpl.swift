@@ -19,9 +19,8 @@ final class RecipeServiceImpl: RecipeService{
                 completion(nil)
                 return
             }
-    
-            let response = try? JSONDecoder().decode(Response<Recipe>.self, from: data)
-            completion(response?.hits)
+            let response = try? JSONDecoder().decode(Response<RecipeContainer>.self, from: data)
+            completion(response?.recipes)
         }
         .resume()
     }

@@ -20,14 +20,16 @@
 		9548D29D24715D9E00143FAB /* RecipeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9548D29C24715D9E00143FAB /* RecipeViewModel.swift */; };
 		9548D29F2471698000143FAB /* RecipeListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9548D29E2471698000143FAB /* RecipeListTableViewController.swift */; };
 		9548D2A12471FE3800143FAB /* RecipeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9548D2A02471FE3800143FAB /* RecipeCell.swift */; };
-		9548D2A3247220DE00143FAB /* DishInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9548D2A2247220DE00143FAB /* DishInfo.swift */; };
 		9548D2A524723D0600143FAB /* RecipeListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9548D2A424723D0600143FAB /* RecipeListViewModel.swift */; };
 		9548D2A82472430B00143FAB /* RecipePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9548D2A72472430B00143FAB /* RecipePageViewController.swift */; };
+		9548D2B124733F9E00143FAB /* IngredientRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9548D2B024733F9E00143FAB /* IngredientRealm.swift */; };
+		9548D2B32473EE9D00143FAB /* RecipeIngredientRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9548D2B22473EE9D00143FAB /* RecipeIngredientRealm.swift */; };
+		9548D2B62473F0E500143FAB /* IngredientContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9548D2B52473F0E500143FAB /* IngredientContainer.swift */; };
 		955CC4B3246337C7006935CB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 955CC4B2246337C7006935CB /* AppDelegate.swift */; };
 		955CC4B5246337C7006935CB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 955CC4B4246337C7006935CB /* SceneDelegate.swift */; };
 		955CC4BC246337C8006935CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 955CC4BB246337C8006935CB /* Assets.xcassets */; };
 		955CC4BF246337C8006935CB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 955CC4BD246337C8006935CB /* LaunchScreen.storyboard */; };
-		959CF65C2464AAE2007487FD /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959CF65B2464AAE2007487FD /* Recipe.swift */; };
+		959CF65C2464AAE2007487FD /* RecipeContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959CF65B2464AAE2007487FD /* RecipeContainer.swift */; };
 		959CF65E2464AAF4007487FD /* RecipeRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 959CF65D2464AAF4007487FD /* RecipeRealm.swift */; };
 /* End PBXBuildFile section */
 
@@ -47,16 +49,19 @@
 		9548D29C24715D9E00143FAB /* RecipeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeViewModel.swift; sourceTree = "<group>"; };
 		9548D29E2471698000143FAB /* RecipeListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListTableViewController.swift; sourceTree = "<group>"; };
 		9548D2A02471FE3800143FAB /* RecipeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCell.swift; sourceTree = "<group>"; };
-		9548D2A2247220DE00143FAB /* DishInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DishInfo.swift; sourceTree = "<group>"; };
 		9548D2A424723D0600143FAB /* RecipeListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListViewModel.swift; sourceTree = "<group>"; };
 		9548D2A72472430B00143FAB /* RecipePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipePageViewController.swift; sourceTree = "<group>"; };
+		9548D2B024733F9E00143FAB /* IngredientRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientRealm.swift; sourceTree = "<group>"; };
+		9548D2B22473EE9D00143FAB /* RecipeIngredientRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeIngredientRealm.swift; sourceTree = "<group>"; };
+		9548D2B52473F0E500143FAB /* IngredientContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientContainer.swift; sourceTree = "<group>"; };
+		9548D2B72474309800143FAB /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		955CC4AF246337C7006935CB /* Dish Recepiest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dish Recepiest.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		955CC4B2246337C7006935CB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		955CC4B4246337C7006935CB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		955CC4BB246337C8006935CB /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		955CC4BE246337C8006935CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		955CC4C0246337C8006935CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		959CF65B2464AAE2007487FD /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
+		959CF65B2464AAE2007487FD /* RecipeContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeContainer.swift; sourceTree = "<group>"; };
 		959CF65D2464AAF4007487FD /* RecipeRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeRealm.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -118,6 +123,16 @@
 			path = Layouts;
 			sourceTree = "<group>";
 		};
+		9548D2B42473F07300143FAB /* Realm */ = {
+			isa = PBXGroup;
+			children = (
+				959CF65D2464AAF4007487FD /* RecipeRealm.swift */,
+				9548D2B024733F9E00143FAB /* IngredientRealm.swift */,
+				9548D2B22473EE9D00143FAB /* RecipeIngredientRealm.swift */,
+			);
+			path = Realm;
+			sourceTree = "<group>";
+		};
 		955CC4A6246337C7006935CB = {
 			isa = PBXGroup;
 			children = (
@@ -154,10 +169,10 @@
 		959CF6572464A8C1007487FD /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				959CF65B2464AAE2007487FD /* Recipe.swift */,
-				959CF65D2464AAF4007487FD /* RecipeRealm.swift */,
+				9548D2B42473F07300143FAB /* Realm */,
+				959CF65B2464AAE2007487FD /* RecipeContainer.swift */,
 				9548D2962471597500143FAB /* Response.swift */,
-				9548D2A2247220DE00143FAB /* DishInfo.swift */,
+				9548D2B52473F0E500143FAB /* IngredientContainer.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -236,6 +251,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ru,
 			);
 			mainGroup = 955CC4A6246337C7006935CB;
 			productRefGroup = 955CC4B0246337C7006935CB /* Products */;
@@ -310,10 +326,12 @@
 			files = (
 				9548D2A12471FE3800143FAB /* RecipeCell.swift in Sources */,
 				950EC044246B45D000EED405 /* RecipeRepositoryImpl.swift in Sources */,
+				9548D2B124733F9E00143FAB /* IngredientRealm.swift in Sources */,
+				9548D2B32473EE9D00143FAB /* RecipeIngredientRealm.swift in Sources */,
+				9548D2B62473F0E500143FAB /* IngredientContainer.swift in Sources */,
 				950EC03E246B440700EED405 /* RecipeRepository.swift in Sources */,
-				9548D2A3247220DE00143FAB /* DishInfo.swift in Sources */,
 				9548D2A524723D0600143FAB /* RecipeListViewModel.swift in Sources */,
-				959CF65C2464AAE2007487FD /* Recipe.swift in Sources */,
+				959CF65C2464AAE2007487FD /* RecipeContainer.swift in Sources */,
 				9548D2972471597500143FAB /* Response.swift in Sources */,
 				950EC040246B45B100EED405 /* RecipeServiceImpl.swift in Sources */,
 				955CC4B3246337C7006935CB /* AppDelegate.swift in Sources */,
@@ -335,6 +353,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				955CC4BE246337C8006935CB /* Base */,
+				9548D2B72474309800143FAB /* ru */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -346,6 +365,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -406,6 +426,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";

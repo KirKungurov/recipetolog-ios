@@ -9,8 +9,7 @@
 import Foundation
 
 struct Response<T:Decodable>{
-    let count: Int
-    let hits: [Recipe]
+    let recipes: [RecipeInfo]
 }
 
 extension Response: Decodable {}

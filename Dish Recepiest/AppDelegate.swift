@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let ViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "RecipeListTableViewController") as! RecipeListTableViewController
         ViewController.viewModel = RecipeListViewModel()
-        
+        ViewController.title = "Recipetolog"
         let navigationController = UINavigationController(rootViewController: ViewController)
         window?.rootViewController = navigationController
         return true

@@ -12,15 +12,23 @@ class RecipePageViewController: UIViewController{
     var recipe: RecipeViewModel?
     
     @IBOutlet private var recipeImage: UIImageView!
-    @IBOutlet private var recipeName: UILabel!
-    @IBOutlet private var recipeDescription: UITextView!
+    @IBOutlet private var recipeDescription: UILabel!
+    @IBOutlet private var switchTextLabel: UILabel!
     
+    @IBAction func `switch`(_ sender: UISwitch){
+        if (sender.isOn == true) {
+            switchTextLabel.text = self.recipe?.ingredients
+        } else {
+            switchTextLabel.text = self.recipe?.description
+
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         guard let recipe = self.recipe else { return }
-        recipeName.text = recipe.label
         recipeDescription.text = recipe.description
+        switchTextLabel.text = recipe.description
         recipeImage.kf.setImage(
-            with: recipe.image)
+            with: recipe.imageUrl)
     }
 }

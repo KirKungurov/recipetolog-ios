@@ -17,16 +17,27 @@ final class RecipeRepositoryImpl: RecipeRepository {
         }
     }
 
-    func save(_ recipes: [DishInfo]) {
-        let recipes = recipes.map(RecipeRealm.init(recipe:))
-        print("Count " + "\(recipes.count)")
+    func save(_ recipes: [RecipeInfo]) {
+        let recipesObj = recipes.map(RecipeRealm.init(recipe:))
+//        for recipe in recipes{
+//            var recipeIngedientsLinks = [RecipeIngredientRealm]()
+//            for ingredientContainer in recipe.ingredients{
+//                recipeIngedientsLinks.append(RecipeIngredientRealm.init(recipeId: recipe.id, ingredientId: ingredientContainer.ingredient.id))
+//            }
+//        }
         try? realm.write {
-            realm.add(recipes, update: .modified)
+            realm.add(recipesObj, update: .modified)
         }
     }
 
-    func getRecipes() -> Results<RecipeRealm> {
+    func getAllRecipes() -> Results<RecipeRealm> {
         realm.objects(RecipeRealm.self)
+    }
+    
+    func getRecipesWithIngrient(ingridients: String) -> Results<RecipeRealm> {
+        //SQL injection
+    
+        realm.objects(RecipeRealm.self).filter("label is not null")
     }
 }
 

@@ -9,6 +9,7 @@
 import RealmSwift
 
 protocol RecipeRepository {
-    func save(_ articles: [DishInfo])
-    func getRecipes() -> Results<RecipeRealm>
+    func save(_ articles: [RecipeInfo])
+    func getAllRecipes() -> Results<RecipeRealm>
+    func getRecipesWithIngrient(ingridients: String) -> Results<RecipeRealm>
 }

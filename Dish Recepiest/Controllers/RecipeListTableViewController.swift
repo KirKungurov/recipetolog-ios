@@ -33,7 +33,7 @@ class RecipeListTableViewController: UIViewController{
         viewModel.onRecipesChanged = { [unowned self] in
             self.recipesVM = $0
         }
-        viewModel.loadMore()
+        viewModel.reloadRecipes(ingredients: self.ingredients)
         
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
         addIngredientImage.isUserInteractionEnabled = true
@@ -71,9 +71,8 @@ extension RecipeListTableViewController: UITableViewDataSource{
 // MARK: - UITableViewDelegate
 extension RecipeListTableViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == recipesVM.count - 1 {
-            viewModel.loadMore()
-        }
+        guard indexPath.row == recipesVM.count - 1 else { return }
+        viewModel.loadMore()
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -84,7 +83,9 @@ extension RecipeListTableViewController: UITableViewDelegate{
         guard let RecipePageViewController = UIStoryboard(name: "RecipePage", bundle: nil)
             .instantiateViewController(withIdentifier: "RecipePageViewController") as? RecipePageViewController else { return }
         RecipePageViewController.recipe = recipesVM[indexPath.row]
+        RecipePageViewController.title = recipesVM[indexPath.row].name
         navigationController?.pushViewController(RecipePageViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
+

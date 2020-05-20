@@ -8,6 +8,6 @@
 import Foundation
 
 protocol RecipeService {
-    typealias RecipesCompletion = ([Recipe]?) -> Void
+    typealias RecipesCompletion = ([RecipeInfo]?) -> Void
     func getRecipes(nextUrl: URL?, completion: @escaping RecipesCompletion)
 }

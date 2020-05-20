@@ -25,22 +25,18 @@ class RecipeListViewModel: RecipeListViewModelProtocol {
         }
     }
     private var from: Int = 0
-    private var to: Int = 20
+    private var count: Int = 20
     private var ingredients: String = ""
     private var nextUrl:  URL? {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = "api.edamam.com"
-        components.path = "/search"
+        components.host = "recipetolog.herokuapp.com"
+        components.path = "/recipes/with-all-these-ingredients"
         components.queryItems = [
-            URLQueryItem(name: "app_id", value: "8c9e47e4"),
-            URLQueryItem(name: "app_key", value: "861f62d57c74b68b7833418cf4f2477e"),
+            URLQueryItem(name: "ing", value: self.ingredients.trimmingCharacters(in: .punctuationCharacters)),
             URLQueryItem(name: "from", value: "\(self.from)"),
-            URLQueryItem(name: "to", value: "\(self.to)"),
-            URLQueryItem(name: "q", value: self.ingredients)
+            URLQueryItem(name: "count", value: "\(self.count)")
         ]
-        self.from = self.to
-        self.to += 20
         return components.url
     }
     
@@ -49,18 +45,23 @@ class RecipeListViewModel: RecipeListViewModelProtocol {
     func reloadRecipes(ingredients: String){
         self.ingredients = ingredients
         self.from = 0
-        self.to = 20
         self.recipesVM = []
         recipeService.getRecipes(nextUrl: nextUrl){
             guard let newRecipes = $0 else { return }
-            self.recipesVM.append(contentsOf: newRecipes.map{RecipeViewModel(recipe: $0.recipe)})
+            self.recipesVM = newRecipes.map{RecipeViewModel(recipe: $0)}
         }
+        self.from += self.count
     }
     
     func loadMore() {
+        //переделать на фасад для кэширования
         recipeService.getRecipes(nextUrl: nextUrl){
             guard let newRecipes = $0 else { return }
-            self.recipesVM.append(contentsOf: newRecipes.map{RecipeViewModel(recipe: $0.recipe)})
+            if newRecipes.count != 0 {
+                self.from += self.count
+            }
+            self.recipesVM.append(contentsOf: newRecipes.map{RecipeViewModel(recipe: $0)})
+//            self.recipesVM = newRecipes.map{RecipeViewModel(recipe: $0)}
         }
     }
 }

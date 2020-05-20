@@ -11,32 +11,33 @@ import Kingfisher
 
 struct RecipeViewModel {
     
-    private var recipe: DishInfo
+    private var recipe: RecipeInfo
     
-    init(recipe: DishInfo){
+    init(recipe: RecipeInfo){
         self.recipe = recipe
     }
 }
 
 extension RecipeViewModel{
-    public var label: String {
-        self.recipe.label
+    public var name: String {
+        recipe.name
     }
     
-    public var image: URL? {
-        guard let urlToImage = self.recipe.image else { return nil }
+    public var imageUrl: URL? {
+        guard let urlToImage = recipe.imageUrl else { return nil }
         return URL(string: urlToImage)
     }
     
-    public var recipeUrl: URL? {
-        URL(string: self.recipe.uri)
-    }
+//    public var recipeUrl: URL? {
+//        URL(string: self.recipe.)
+//    }
     
     public var description: String{
-        "Aaaaaaaaaaaaaaaaaaaaaaaa"
+        return recipe.description
     }
     public var ingredients: String{
-        recipe.ingredientLines.joined(separator: "\n").trimmingCharacters(in: .whitespacesAndNewlines)
+        return "aaa"
+//        recipe.ingredientLines.joined(separator: "\n").trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
 

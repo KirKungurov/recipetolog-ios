@@ -24,10 +24,10 @@ class RecipeCell: UITableViewCell{
     }
     
     func setUp(with recipe: RecipeViewModel){
-        recipeName.text = recipe.label
+        recipeName.text = recipe.name
         recipeDescription.text = recipe.description
         recipeImage.kf.setImage(
-            with: recipe.image
+            with: recipe.imageUrl
         )
         
     }
