@@ -17,7 +17,7 @@ class RecipePageViewController: UIViewController{
     
     @IBAction func `switch`(_ sender: UISwitch){
         if (sender.isOn == true) {
-            switchTextLabel.text = self.recipe!.    
+            switchTextLabel.text = self.recipe!.name
         } else {
             switchTextLabel.text = self.recipe!.directions
 

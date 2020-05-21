@@ -1,28 +1,37 @@
 PODS:
-  - Kingfisher (5.13.4):
-    - Kingfisher/Core (= 5.13.4)
-  - Kingfisher/Core (5.13.4)
-  - Realm (4.4.1):
-    - Realm/Headers (= 4.4.1)
-  - Realm/Headers (4.4.1)
-  - RealmSwift (4.4.1):
-    - Realm (= 4.4.1)
+  - Kingfisher (5.14.0):
+    - Kingfisher/Core (= 5.14.0)
+  - Kingfisher/Core (5.14.0)
+  - Realm (5.0.0):
+    - Realm/Headers (= 5.0.0)
+  - Realm/Headers (5.0.0)
+  - RealmSwift (5.0.0):
+    - Realm (= 5.0.0)
 
 DEPENDENCIES:
-  - Kingfisher
+  - Kingfisher (from `https://github.com/onevcat/Kingfisher`, branch `master`)
   - RealmSwift
 
 SPEC REPOS:
   trunk:
-    - Kingfisher
     - Realm
     - RealmSwift
 
+EXTERNAL SOURCES:
+  Kingfisher:
+    :branch: master
+    :git: https://github.com/onevcat/Kingfisher
+
+CHECKOUT OPTIONS:
+  Kingfisher:
+    :commit: d00761ec0e9dee2392c27ab4f720d8c984d35684
+    :git: https://github.com/onevcat/Kingfisher
+
 SPEC CHECKSUMS:
-  Kingfisher: d2279a7abece3c7f25a80cd2b7f363ca5cf3f44c
-  Realm: 4eb04d7487bd43c0581256f40b424eafb711deff
-  RealmSwift: 3eb8924ff7100df5928c7602f71d0fec51e7c9c5
+  Kingfisher: 7b64389a43139c903ec434788344c288217c792d
+  Realm: 76066d333de26f97e9caedaa85ee3ff4a62ca265
+  RealmSwift: c1bdff09b422569dc6881410d9ccf712bcdb79b0
 
-PODFILE CHECKSUM: 53bf50634183257a177cecfda700e80dcdc75273
+PODFILE CHECKSUM: 48da800ac42bc0590d4ac305fe9459672cbcc094
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.9.1

@@ -24,7 +24,7 @@ class RecipeCell: UITableViewCell{
     }
     
     func setUp(with recipe: RecipeViewModel){
-        recipeName.text = recipe.name
+        recipeName.text = recipe.name.uppercased()
         recipeDescription.text = recipe.description
         recipeImage.kf.setImage(
             with: recipe.imageUrl
