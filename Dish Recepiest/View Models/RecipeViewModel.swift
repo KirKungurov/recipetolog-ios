@@ -20,7 +20,7 @@ struct RecipeViewModel {
 
 extension RecipeViewModel{
     public var name: String {
-        recipe.name
+        self.capitalizeFirstLetter(param: recipe.name)
     }
     
     public var imageUrl: URL? {
@@ -51,6 +51,12 @@ extension RecipeViewModel{
         recipe.directions.joined(separator: "\n-").trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
+    func capitalizeFirstLetter(param: String) -> String{
+        let first = param.prefix(1).uppercased()
+        let other = param.dropFirst()
+        return first + other
+    }
+
 
     
 }

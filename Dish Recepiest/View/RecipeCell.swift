@@ -24,8 +24,10 @@ class RecipeCell: UITableViewCell{
     }
     
     func setUp(with recipe: RecipeViewModel){
-        recipeName.text = recipe.name.uppercased()
+        recipeName.text = recipe.name
+        recipeName.lineBreakMode = .byWordWrapping
         recipeDescription.text = recipe.description
+        recipeDescription.lineBreakMode = .byTruncatingTail
         recipeImage.kf.setImage(
             with: recipe.imageUrl
         )
