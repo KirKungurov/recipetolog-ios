@@ -23,8 +23,8 @@ final class RecipeRepositoryImpl: RecipeRepository {
         }
     }
 
-    func getAllRecipes() -> Results<Recipe> {
-        return realm.objects(Recipe.self)
+    func getAllRecipes() -> Results<Ingredient> {
+        return realm.objects(Ingredient.self)
     }
     
     func getRecipesWithIngrient(ingridients: [String]) -> Results<Recipe> {

@@ -34,7 +34,7 @@ extension RecipeViewModel{
     }
     
     public var description: String{
-        return "Not define"
+        recipe.recipeDescription
     }
 
     public var ingredients: String{
@@ -48,8 +48,7 @@ extension RecipeViewModel{
     
     //Костыль
     public var directions: String{
-        "Not define"
-//        recipe.directions.joined(separator: "\n-").trimmingCharacters(in: .whitespacesAndNewlines)
+        recipe.directions.joined(separator: "\n-").trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
 

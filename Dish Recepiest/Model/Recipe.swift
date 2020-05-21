@@ -13,24 +13,29 @@ class Recipe: Object, Decodable{
     @objc dynamic var name: String = ""
     @objc dynamic var imageUrl: String? = ""
     @objc dynamic var source: String? = ""
-//    @objc dynamic var recipeDescription: String = ""
+    @objc dynamic var recipeDescription: String = ""
     
     var ingredients = List<RecipeIngredient>()
+    var directions = List<String>()
         
     override class func primaryKey() -> String? {
         "id"
     }
-}
+    
+    private enum CodingKeys: String,CodingKey{
+        case id,name,imageUrl,source,description,ingredients,directions
+    }
 
-extension Recipe {
-    convenience init(recipe: Recipe){
+    required convenience init(from decoder: Decoder) throws{
         self.init()
-        self.id = recipe.id
-        self.source = recipe.source
-        self.name = recipe.name
-        self.imageUrl = recipe.imageUrl
-//        self.recipeDescription = recipe.recipeDescription
-//        self.links.append(objectsIn: links)
-        self.ingredients = recipe.ingredients
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.id = try container.decode(Int.self, forKey: .id)
+        self.name = try container.decode(String.self, forKey: .name)
+        self.imageUrl = try container.decode(String?.self, forKey: .imageUrl)
+        self.source = try container.decode(String?.self, forKey: .source)
+        self.recipeDescription = try container.decode(String.self, forKey: .description)
+        self.ingredients = try container.decodeIfPresent(List<RecipeIngredient>.self, forKey: .ingredients) ?? List()
+        self.directions = try container.decodeIfPresent(List<String>.self, forKey: .directions) ?? List()
+
     }
 }
