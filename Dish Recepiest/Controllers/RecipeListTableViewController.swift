@@ -18,36 +18,58 @@ class RecipeListTableViewController: UIViewController{
         }
     }
     
-    private let cellIdentifier = "RecipeCell"
-    var ingredients = ""
+    private let recipeCellIdentifier = "RecipeCell"
+    private let ingrCellIdentifier = "IngredientCell"
+    private var ingredients = [String]()
+    private var shownIndexPaths = [IndexPath]()
+    
     var viewModel: RecipeListViewModel!
     
+    @IBOutlet private var addedInredientsBar: UICollectionView!
     @IBOutlet private var tableView: UITableView!
-    @IBOutlet private var addIngredientImage: UIImageView!
+    @IBOutlet private var addIngredientButton: UIButton!
     @IBOutlet private var ingredientsTextField: UITextField!
-
-
-
+    @IBOutlet private var barHeightConstraint: NSLayoutConstraint!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        barHeightConstraint.constant = 0
         viewModel.onRecipesChanged = { [unowned self] in
             self.recipesVM = $0
         }
-        viewModel.reloadRecipes(ingredients: self.ingredients.components(separatedBy: ","))
-        
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(imageTapped(tapGestureRecognizer:)))
-        addIngredientImage.isUserInteractionEnabled = true
-        addIngredientImage.addGestureRecognizer(tapGestureRecognizer)
+        viewModel.reloadRecipes(ingredients: ingredientsFromBar())
+        addIngredientButton.addTarget(self, action: #selector(buttonTapped(sender:)), for: .touchUpInside)
     }
     
+    @objc func buttonTapped(sender: UIView) {
+        guard let newIngredient = ingredientsTextField.text else { return }
+        ingredients.append(newIngredient)
+        updateBarVisibility()
+        viewModel.reloadRecipes(ingredients: ingredientsFromBar())
+        ingredientsTextField.text = ""
+        ingredientsTextField.resignFirstResponder();
+    }
     
-    @objc func imageTapped(tapGestureRecognizer: UITapGestureRecognizer)
-    {
-        _ = tapGestureRecognizer.view as! UIImageView
-        guard let newIngredient = self.ingredientsTextField.text else { return }
-        self.ingredients += newIngredient + ","
-        self.ingredientsTextField.text = ""
-        viewModel.reloadRecipes(ingredients: self.ingredients.trimmingCharacters(in: .punctuationCharacters).components(separatedBy: ","))
+    private func ingredientsFromBar() -> String {
+        let result = NSMutableString()
+        for item in ingredients {
+            result.append(item)
+            result.append(",")
+        }
+        return result as String
+    }
+    
+    private func updateBarVisibility() {
+        if (ingredients.count > 0) {
+            barHeightConstraint.constant = 46
+        } else {
+            barHeightConstraint.constant = 0
+            shownIndexPaths = [IndexPath]()
+        }
+        UIView.animate(withDuration: 0.2) {
+            self.view.layoutIfNeeded()
+        }
+        self.addedInredientsBar.reloadData()
     }
 }
 
@@ -58,14 +80,12 @@ extension RecipeListTableViewController: UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let recipeCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as? RecipeCell else{
+        guard let recipeCell = tableView.dequeueReusableCell(withIdentifier: recipeCellIdentifier, for: indexPath) as? RecipeCell else{
             fatalError("TableView wasn't configured")
         }
         recipeCell.setUp(with: recipesVM[indexPath.row])
         return recipeCell
     }
-    
-    
 }
 
 // MARK: - UITableViewDelegate
@@ -89,3 +109,44 @@ extension RecipeListTableViewController: UITableViewDelegate{
     }
 }
 
+// MARK: - UICollectionViewDelegate
+extension RecipeListTableViewController: UICollectionViewDelegate{
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        guard !shownIndexPaths.contains(indexPath) else { return }
+        shownIndexPaths.append(indexPath)
+        cell.transform = cell.transform.scaledBy(x: 0.5, y: 0.5)
+        cell.alpha = 0
+        UIView.animate(withDuration: 0.1) {
+            cell.alpha = 1
+            cell.transform = CGAffineTransform.identity
+        }
+    }
+}
+
+extension RecipeListTableViewController: UICollectionViewDataSource{
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return ingredients.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ingrCellIdentifier, for: indexPath) as? IngredientCell else { fatalError("CollectionView wasn't configured") }
+        let position = indexPath.row
+        cell.setText(text: ingredients[position])
+        cell.removeAction = { [unowned self] button in
+            self.ingredients.remove(at: position)
+            self.updateBarVisibility()
+            self.viewModel.reloadRecipes(ingredients: self.ingredientsFromBar())
+        }
+        return cell
+    }
+}
+
+extension RecipeListTableViewController: UITextFieldDelegate{
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if (textField == ingredientsTextField) {
+            buttonTapped(sender: textField)
+            return false
+        }
+        return true
+    }
+}
