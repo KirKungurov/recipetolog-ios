@@ -26,7 +26,8 @@ final class RecipeFacadeImpl: RecipeFacade{
         }
         let recipes = recipeRepository.getRecipesWithIngrient(ingridients: ingredients)
         recipeToken = recipes.observe { _ in
-            completion(recipes.map {$0.recipe})
+            completion(recipes.map {$0})
+            print("Second")
         }
     }
 }

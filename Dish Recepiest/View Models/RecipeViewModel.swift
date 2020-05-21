@@ -34,13 +34,13 @@ extension RecipeViewModel{
     }
     
     public var description: String{
-        return recipe.description
+        return "Not define"
     }
 
     public var ingredients: String{
         var ingredients = [String]()
         for ingredient in recipe.ingredients{
-            let tmp = "- " + ingredient.ingredient.name + ": " + ingredient.amount
+            let tmp = "- " + ingredient.ingredient!.name + ": " + ingredient.amount
             ingredients.append(tmp)
         }
         return ingredients.joined(separator: "\n").trimmingCharacters(in: .whitespacesAndNewlines)
@@ -48,7 +48,8 @@ extension RecipeViewModel{
     
     //Костыль
     public var directions: String{
-        recipe.directions.joined(separator: "\n-").trimmingCharacters(in: .whitespacesAndNewlines)
+        "Not define"
+//        recipe.directions.joined(separator: "\n-").trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
 

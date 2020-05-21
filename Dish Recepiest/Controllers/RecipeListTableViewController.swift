@@ -37,7 +37,7 @@ class RecipeListTableViewController: UIViewController{
         viewModel.onRecipesChanged = { [unowned self] in
             self.recipesVM = $0
         }
-        viewModel.reloadRecipes(ingredients: ingredientsFromBar())
+        viewModel.reloadRecipes(ingredients: self.ingredients)
         addIngredientButton.addTarget(self, action: #selector(buttonTapped(sender:)), for: .touchUpInside)
     }
     
@@ -45,7 +45,7 @@ class RecipeListTableViewController: UIViewController{
         guard let newIngredient = ingredientsTextField.text else { return }
         ingredients.append(newIngredient)
         updateBarVisibility()
-        viewModel.reloadRecipes(ingredients: ingredientsFromBar())
+        viewModel.reloadRecipes(ingredients: self.ingredients)
         ingredientsTextField.text = ""
         ingredientsTextField.resignFirstResponder();
     }
@@ -135,7 +135,7 @@ extension RecipeListTableViewController: UICollectionViewDataSource{
         cell.removeAction = { [unowned self] button in
             self.ingredients.remove(at: position)
             self.updateBarVisibility()
-            self.viewModel.reloadRecipes(ingredients: self.ingredientsFromBar())
+            self.viewModel.reloadRecipes(ingredients: self.ingredients)
         }
         return cell
     }
