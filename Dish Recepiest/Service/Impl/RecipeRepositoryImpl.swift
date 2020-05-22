@@ -30,8 +30,8 @@ final class RecipeRepositoryImpl: RecipeRepository {
     }
 
     
-    func getRecipesWithIngrient(ingridients: [String]) -> Results<Recipe> {
-        return realm.objects(Recipe.self).filter("ANY ingredients.ingredient.name in %@", ingridients)
+    func getRecipesWithIngrient() -> Results<Recipe> {
+        return realm.objects(Recipe.self)
     }
 }
 

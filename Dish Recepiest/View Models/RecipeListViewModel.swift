@@ -31,7 +31,7 @@ class RecipeListViewModel: RecipeListViewModelProtocol {
         var components = URLComponents()
         components.scheme = "https"
         components.host = "recipetolog.herokuapp.com"
-        components.path = "/recipes/with-these-ingredients"
+        components.path = "/recipes/with-all-these-ingredients"
         components.queryItems = [
             URLQueryItem(name: "ing", value: self.ingredients.joined(separator: ",").trimmingCharacters(in: .punctuationCharacters)),
             URLQueryItem(name: "from", value: "\(self.from)"),
@@ -46,9 +46,7 @@ class RecipeListViewModel: RecipeListViewModelProtocol {
         self.ingredients = ingredients
         self.from = 0
         self.recipesVM = []
-//        Для не кэширования раскоментировать
         recipeFacade.getRecipes(nextUrl: nextUrl, ingredients: self.ingredients){
-//        recipeService.getRecipes(nextUrl: nextUrl){
             guard let newRecipes = $0 else { return }
             self.recipesVM = newRecipes.map{RecipeViewModel(recipe: $0)}
         }
