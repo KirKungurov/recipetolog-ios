@@ -9,34 +9,29 @@
 import RealmSwift
 
 final class RecipeRepositoryImpl: RecipeRepository {
+    private let configuration: Realm.Configuration
+
     var realm: Realm {
         do {
-            return try Realm()
+            return try Realm(configuration: configuration)
         } catch {
             fatalError("Realm can't be created")
         }
     }
 
+    init(configuration: Realm.Configuration = .defaultConfiguration) {
+        self.configuration = configuration
+    }
+    
     func save(_ recipes: [Recipe]) {
         try? realm.write {
             realm.add(recipes, update: .modified)
         }
     }
 
-    func getAllRecipes() -> Results<Ingredient> {
-        return realm.objects(Ingredient.self)
-    }
     
     func getRecipesWithIngrient(ingridients: [String]) -> Results<Recipe> {
-        var recipes = realm.objects(Recipe.self).makeIterator()
-        var recipeIds: [Int] = []
-        while let recipe = recipes.next() {
-            if Set(ingridients).isSubset(of: recipe.ingredients.map{$0.ingredient?.name}) && ingridients.count > 0 {
-                recipeIds.append(recipe.id)
-            }
-
-        }
-        return realm.objects(Recipe.self).filter("id IN %@", Array(recipeIds))
+        return realm.objects(Recipe.self).filter("ANY ingredients.ingredient.name in %@", ingridients)
     }
 }
 

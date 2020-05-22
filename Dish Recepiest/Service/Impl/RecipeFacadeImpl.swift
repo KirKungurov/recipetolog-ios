@@ -19,6 +19,14 @@ final class RecipeFacadeImpl: RecipeFacade{
         self.recipeService = recipeService
     }
 
+    func loadMore(nextUrl: URL?){
+      recipeService.getRecipes(nextUrl: nextUrl){
+            guard let recipes = $0 else { return }
+            self.recipeRepository.save(recipes.map{$0})
+        }
+    }
+    
+    
     func getRecipes(nextUrl: URL?, ingredients: [String], completion: @escaping OnUpdateRecipes) {
         recipeService.getRecipes(nextUrl: nextUrl){
             guard let recipes = $0 else { return }

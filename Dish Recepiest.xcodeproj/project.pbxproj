@@ -158,8 +158,8 @@
 			isa = PBXGroup;
 			children = (
 				959CF65D2464AAF4007487FD /* Recipe.swift */,
-				958053452476B29F0074F9C9 /* Ingredient.swift */,
 				958053432476B1440074F9C9 /* RecipeIngredient.swift */,
+				958053452476B29F0074F9C9 /* Ingredient.swift */,
 				9548D2962471597500143FAB /* Response.swift */,
 			);
 			path = Model;

@@ -13,7 +13,7 @@ protocol RecipeListViewModelProtocol {
 
     var onRecipesChanged: (([RecipeViewModel]) -> Void)? { get set } 
     func reloadRecipes(ingredients: [String])
-    func loadMore()
+    func loadMore(ingredients: [String])
 }
 
 class RecipeListViewModel: RecipeListViewModelProtocol {
@@ -31,7 +31,7 @@ class RecipeListViewModel: RecipeListViewModelProtocol {
         var components = URLComponents()
         components.scheme = "https"
         components.host = "recipetolog.herokuapp.com"
-        components.path = "/recipes/with-all-these-ingredients"
+        components.path = "/recipes/with-these-ingredients"
         components.queryItems = [
             URLQueryItem(name: "ing", value: self.ingredients.joined(separator: ",").trimmingCharacters(in: .punctuationCharacters)),
             URLQueryItem(name: "from", value: "\(self.from)"),
@@ -55,15 +55,17 @@ class RecipeListViewModel: RecipeListViewModelProtocol {
         self.from += self.count
     }
     
-    func loadMore() {
-//          Для не кэширования раскоментировать
-          recipeFacade.getRecipes(nextUrl: nextUrl, ingredients: self.ingredients){
-//            recipeService.getRecipes(nextUrl: nextUrl){
-            guard let newRecipes = $0 else { return }
-            if newRecipes.count != 0 {
-                self.from += self.count
-            }
-            self.recipesVM = newRecipes.map{RecipeViewModel(recipe: $0)}
+    func getRecipe(ingredients: [String]){
+        self.ingredients = ingredients
+        self.from = 0
+        recipeFacade.getRecipes(nextUrl: nextUrl, ingredients: ingredients){
+            guard let recipes = $0 else { return }
+            self.recipesVM = recipes.map{RecipeViewModel.init(recipe: $0)}
         }
+    }
+    
+    func loadMore(ingredients: [String]){
+        self.from += self.count
+        recipeFacade.loadMore(nextUrl: nextUrl)
     }
 }
