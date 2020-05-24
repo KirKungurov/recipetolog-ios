@@ -9,6 +9,8 @@
 import RealmSwift
 
 protocol RecipeRepository {
-    func save(_ articles: [Recipe])
+    func save(_ recipes: [Recipe])
     func getRecipesWithIngrient() -> Results<Recipe>
+    func updateBookmark(recipe: Recipe)
+    func getBookmarks() -> Results<Recipe>
 }
