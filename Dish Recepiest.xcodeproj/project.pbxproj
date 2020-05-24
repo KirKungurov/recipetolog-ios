@@ -50,7 +50,6 @@
 		9548D2A02471FE3800143FAB /* RecipeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCell.swift; sourceTree = "<group>"; };
 		9548D2A424723D0600143FAB /* RecipeListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListViewModel.swift; sourceTree = "<group>"; };
 		9548D2A72472430B00143FAB /* RecipePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipePageViewController.swift; sourceTree = "<group>"; };
-		9548D2B72474309800143FAB /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		955CC4AF246337C7006935CB /* Dish Recepiest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dish Recepiest.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		955CC4B2246337C7006935CB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		955CC4B4246337C7006935CB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -240,7 +239,6 @@
 			knownRegions = (
 				en,
 				Base,
-				ru,
 			);
 			mainGroup = 955CC4A6246337C7006935CB;
 			productRefGroup = 955CC4B0246337C7006935CB /* Products */;
@@ -341,7 +339,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				955CC4BE246337C8006935CB /* Base */,
-				9548D2B72474309800143FAB /* ru */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
