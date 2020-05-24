@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings
+  Dish Recepiest
+
+  Created by stanislav.milke on 24.05.2020.
+  Copyright © 2020 Kirill Kungurov. All rights reserved.
+*/
+
+"RECIPETOLOG" = "Рецептолог";
+"WRITE_INGREDIENT" = "Укажите ингредиент";
+"WRITE_RECIPE" = "Введите название рецепта";
+"INGREDIENT_SEARCH" = "Поиск по ингредиентам";
+"APP_DESCRIPRION" = "Умная книга рецептов";

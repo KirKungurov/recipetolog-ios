@@ -17,10 +17,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.backgroundColor = .white
         window?.makeKeyAndVisible()
 
-        let ViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "RecipeListTableViewController") as! RecipeListTableViewController
-        ViewController.viewModel = RecipeListViewModel()
-        ViewController.title = "Recipetolog"
-        let navigationController = UINavigationController(rootViewController: ViewController)
+//        let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "RecipeListTableViewController") as! RecipeListTableViewController
+//        viewController.title = NSLocalizedString("RECIPETOLOG", comment: "")
+        let viewController = MainScreenController()
+        viewController.viewModel = RecipeListViewModel()
+        let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.isNavigationBarHidden = true
         window?.rootViewController = navigationController
         return true
     }

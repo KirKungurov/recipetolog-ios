@@ -33,6 +33,7 @@ class RecipeListTableViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        ingredientsTextField.placeholder = NSLocalizedString("WRITE_INGREDIENT", comment: "")
         barHeightConstraint.constant = 0
         viewModel.onRecipesChanged = { [unowned self] in
             self.recipesVM = $0
