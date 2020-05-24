@@ -11,9 +11,9 @@ import Kingfisher
 
 struct RecipeViewModel {
     
-    private var recipe: RecipeInfo
+    private var recipe: Recipe
     
-    init(recipe: RecipeInfo){
+    init(recipe: Recipe){
         self.recipe = recipe
     }
 }
@@ -34,13 +34,13 @@ extension RecipeViewModel{
     }
     
     public var description: String{
-        return recipe.description
+        recipe.recipeDescription
     }
 
     public var ingredients: String{
         var ingredients = [String]()
         for ingredient in recipe.ingredients{
-            let tmp = "- " + ingredient.ingredient.name + ": " + ingredient.amount
+            let tmp = "- " + ingredient.ingredient!.name + ": " + ingredient.amount
             ingredients.append(tmp)
         }
         return ingredients.joined(separator: "\n").trimmingCharacters(in: .whitespacesAndNewlines)

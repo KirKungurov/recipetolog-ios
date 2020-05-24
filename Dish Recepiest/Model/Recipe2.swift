@@ -8,11 +8,7 @@
 
 import Foundation
 
-struct RecipeContainer: Decodable {
-    let recipe: RecipeInfo
-}
-
-struct RecipeInfo{
+struct Recipe2{
     let id: Int
     let source: String?
     let name: String
@@ -22,4 +18,4 @@ struct RecipeInfo{
     let directions: [String]
 }
 
-extension RecipeInfo: Decodable {}
+extension Recipe2: Decodable {}
