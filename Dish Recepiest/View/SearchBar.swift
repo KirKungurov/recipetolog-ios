@@ -82,13 +82,6 @@ extension SearchBar: UITextFieldDelegate {
         }
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        if (delegate != nil) {
-            resignFirstResponder()
-            delegate?.searchBarDidEndEditing(self)
-        }
-    }
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if (delegate != nil) {
             resignFirstResponder()

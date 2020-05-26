@@ -17,8 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.backgroundColor = .white
         window?.makeKeyAndVisible()
 
-//        let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "RecipeListTableViewController") as! RecipeListTableViewController
-//        viewController.title = NSLocalizedString("RECIPETOLOG", comment: "")
         let viewController = MainScreenController()
         viewController.viewModel = RecipeListViewModel()
         let navigationController = UINavigationController(rootViewController: viewController)

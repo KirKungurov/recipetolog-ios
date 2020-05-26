@@ -22,6 +22,13 @@ class MainScreenController: UIViewController {
     private var bottomLayoutConstraint: NSLayoutConstraint?
     private var searchBarIsActive: Bool = false
     
+    private let closeBarRecognizer: UIPanGestureRecognizer = {
+        let recognizer = UIPanGestureRecognizer()
+        recognizer.maximumNumberOfTouches = 2
+        recognizer.minimumNumberOfTouches = 1
+        return recognizer
+    }()
+    
     var viewModel: RecipeListViewModel!
     
     private var recipesVM = [RecipeViewModel](){
@@ -97,6 +104,9 @@ class MainScreenController: UIViewController {
         
         setupConstraints()
         
+        searchBar.addGestureRecognizer(closeBarRecognizer)
+        closeBarRecognizer.addTarget(self, action: #selector(handleCloseGesture(gestureRecognizer:)))
+        
         searchBar.setDelegate(delegate: self)
         recipesTable.delegate = self
         recipesTable.dataSource = self
@@ -104,6 +114,33 @@ class MainScreenController: UIViewController {
         bottomLayoutConstraint = NSLayoutConstraint.init(item: view as Any, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
         recipesTable.register(RecipeCell.self, forCellReuseIdentifier: recipeCellIdentifier)
 
+    }
+    
+    @objc private func handleCloseGesture(gestureRecognizer: UIPanGestureRecognizer) {
+        guard (!(sidesInsetsBarConstraint?.isActive ?? true)) else { return }
+        switch gestureRecognizer.state {
+        case .began:
+            searchBar.resignFirstResponder()
+            break
+        case .changed:
+            searchBar.layer.cornerRadius = min(max(gestureRecognizer.translation(in: searchBar).y / 8, 0), 10)
+            let k = min(max(gestureRecognizer.translation(in: searchBar).y / 80, 0), 1)
+            recipesTable.alpha = 1 - k
+            self.appNameLabel.alpha = k
+            self.appDescriptionLabel.alpha = k
+            self.switchSearchTypeLabel.alpha = k
+            self.searchTypeSwitch.alpha = k
+            break
+        case .ended:
+            if (gestureRecognizer.translation(in: searchBar).y > 40) {
+                resignSearchBar(searchBar)
+            } else {
+                presentSearchBar(searchBar)
+            }
+            break
+        default:
+            break
+        }
     }
     
     private func ingredientDidWrite() {
@@ -152,8 +189,10 @@ class MainScreenController: UIViewController {
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
             self.view.layoutIfNeeded()
             self.appNameLabel.alpha = 0
+            self.appDescriptionLabel.alpha = 0
             self.switchSearchTypeLabel.alpha = 0
             self.searchTypeSwitch.alpha = 0
+            self.recipesTable.alpha = 1
             searchBar.layer.cornerRadius = 0
         })
     }
@@ -163,15 +202,18 @@ class MainScreenController: UIViewController {
         centerBarConstraint?.activate()
         sidesInsetsBarConstraint?.activate()
         searchBarIsActive = false
-        recipesTable.isHidden = true
         setNeedsStatusBarAppearanceUpdate()
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
             self.view.layoutIfNeeded()
             self.appNameLabel.alpha = 1
+            self.appDescriptionLabel.alpha = 1
             self.switchSearchTypeLabel.alpha = 1
             self.searchTypeSwitch.alpha = 1
+            self.recipesTable.alpha = 0
             searchBar.layer.cornerRadius = 10
-        })
+        }) { (f) in
+            self.recipesTable.isHidden = true
+        }
     }
     
     @objc private func switchSearchType(check: UISwitch) {
@@ -197,27 +239,27 @@ extension MainScreenController {
         
         appDescriptionLabel.snp.makeConstraints { (ConstraintMaker) in
             ConstraintMaker.centerX.equalTo(searchBar)
-            ConstraintMaker.bottom.equalTo(searchBar.snp.top).inset(-40)
+            ConstraintMaker.bottom.equalTo(view.snp.centerY).offset(-60)
             ConstraintMaker.right.left.equalToSuperview().inset(20)
         }
-        
+
         appNameLabel.snp.makeConstraints { (ConstraintMaker) in
             ConstraintMaker.centerX.equalTo(searchBar)
             ConstraintMaker.bottom.equalTo(appDescriptionLabel.snp.top).inset(-10)
             ConstraintMaker.right.left.equalToSuperview().inset(20)
         }
-        
+
         searchTypeSwitch.snp.makeConstraints { (ConstraintMaker) in
-            ConstraintMaker.top.equalTo(searchBar.snp.bottom).offset(40)
+            ConstraintMaker.top.equalTo(view.snp.centerY).offset(40)
             ConstraintMaker.right.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
-        
+
         switchSearchTypeLabel.snp.makeConstraints { (ConstraintMaker) in
             ConstraintMaker.right.equalTo(searchTypeSwitch.snp.left).inset(20)
             ConstraintMaker.height.centerY.equalTo(searchTypeSwitch)
             ConstraintMaker.left.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
-        
+
         recipesTable.snp.makeConstraints { (ConstraintMaker) in
             ConstraintMaker.bottom.equalToSuperview()
             ConstraintMaker.left.right.equalTo(view.safeAreaLayoutGuide)
