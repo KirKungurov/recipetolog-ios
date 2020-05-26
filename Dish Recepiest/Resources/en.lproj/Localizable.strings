@@ -11,3 +11,8 @@
 "WRITE_RECIPE" = "Write recipe";
 "INGREDIENT_SEARCH" = "Search by ingredients";
 "APP_DESCRIPRION" = "Smart recipe book";
+"TEXT_PLACEHOLDER_1" = "🍝🍗🍏🥞🥗";
+"TEXT_PLACEHOLDER_2" = "🥗🍝🍗🍏🥞";
+"TEXT_PLACEHOLDER_3" = "🥞🥗🍝🍗🍏";
+"TEXT_PLACEHOLDER_4" = "🍏🥞🥗🍝🍗";
+"TEXT_PLACEHOLDER_5" = "🍗🍏🥞🥗🍝";

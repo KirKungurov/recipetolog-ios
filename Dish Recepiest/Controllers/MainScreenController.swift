@@ -11,14 +11,18 @@ import SnapKit
 
 class MainScreenController: UIViewController {
     
+    let ingredientCollectionHeight = 48
+    let sideInset = 20
+    let barSideInset = 10
+
     private let recipeCellIdentifier: String = "RecipeCell"
     private let ingrCellIdentifier = "IngredientCell"
     private var ingredients = [String]()
-    private var shownIndexPaths = [IndexPath]()
     
     private var topBarConstraint: Constraint?
     private var centerBarConstraint: Constraint?
     private var sidesInsetsBarConstraint: Constraint?
+    private var ingredientsCollectionConstraint: Constraint?
     private var bottomLayoutConstraint: NSLayoutConstraint?
     private var searchBarIsActive: Bool = false
     
@@ -32,12 +36,24 @@ class MainScreenController: UIViewController {
     var viewModel: RecipeListViewModel!
     
     private var recipesVM = [RecipeViewModel](){
-        didSet{
+        didSet {
             DispatchQueue.main.async {
                 self.recipesTable.reloadData()
+                UIView.transition(with: self.recipesTable, duration: 0.3, options: .transitionCrossDissolve, animations: {
+                    if (self.recipesVM.count != 0) {
+                        self.tablePlaceholder?.isHidden = true
+                        self.recipesTable.separatorStyle = .singleLine
+                    } else {
+                        self.tablePlaceholder?.isHidden = false
+                        self.recipesTable.separatorStyle = .none
+                    }
+                })
             }
         }
     }
+    
+    private var tablePlaceholder: UIView?
+    private var tablePlaceholderSetText: ((String?) -> Void)?
     
     private let appNameLabel: UILabel = {
         let label = UILabel()
@@ -88,6 +104,20 @@ class MainScreenController: UIViewController {
         return tableView
     }()
     
+    private let ingredientsCollection: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.sectionInset = UIEdgeInsets(top: 6, left: 10, bottom: 6, right: 0)
+        layout.estimatedItemSize = CGSize(width: 80, height: 32)
+        layout.itemSize = UICollectionViewFlowLayout.automaticSize
+
+        let collection = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
+        collection.backgroundColor = UIColor.systemBackground
+        collection.collectionViewLayout = layout
+        collection.showsHorizontalScrollIndicator = false
+        return collection
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.onRecipesChanged = { [unowned self] in
@@ -101,19 +131,62 @@ class MainScreenController: UIViewController {
         view.addSubview(searchTypeSwitch)
         view.addSubview(switchSearchTypeLabel)
         view.addSubview(recipesTable)
-        
+        view.addSubview(ingredientsCollection)
+
         setupConstraints()
         
         searchBar.addGestureRecognizer(closeBarRecognizer)
         closeBarRecognizer.addTarget(self, action: #selector(handleCloseGesture(gestureRecognizer:)))
-        
         searchBar.setDelegate(delegate: self)
+        
         recipesTable.delegate = self
         recipesTable.dataSource = self
         recipesTable.isHidden = true
-        bottomLayoutConstraint = NSLayoutConstraint.init(item: view as Any, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
         recipesTable.register(RecipeCell.self, forCellReuseIdentifier: recipeCellIdentifier)
+        
+        ingredientsCollection.delegate = self
+        ingredientsCollection.dataSource = self
+        ingredientsCollection.isHidden = true
+        ingredientsCollection.register(IngredientCell.self, forCellWithReuseIdentifier: ingrCellIdentifier)
 
+        setupPlaceholder()
+        recipesTable.backgroundView = tablePlaceholder
+        tablePlaceholder?.isHidden = true
+        
+        bottomLayoutConstraint = NSLayoutConstraint.init(item: view as Any, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
+    }
+    
+    private func setupPlaceholder() {
+        let view = UIView()
+        let imgView = UIImageView()
+        let label = UILabel()
+        
+        view.addSubview(imgView)
+        view.addSubview(label)
+        
+        let image = UIImage(named: "placeholder_logo")
+        imgView.image = image
+        imgView.snp.makeConstraints { (ConstraintMaker) in
+            ConstraintMaker.size.lessThanOrEqualTo(250)
+            ConstraintMaker.centerX.equalToSuperview()
+            ConstraintMaker.top.equalTo(view.safeAreaInsets)
+        }
+                
+        label.font = UIFont.systemFont(ofSize: 20)
+        label.numberOfLines = 0
+        label.text = NSLocalizedString("TEXT_PLACEHOLDER_" + String(Int.random(in: 1...5)), comment: "")
+        label.textColor = UIColor.label
+        label.textAlignment = .center
+        label.snp.makeConstraints { (ConstraintMaker) in
+            ConstraintMaker.left.right.equalToSuperview().inset(20)
+            ConstraintMaker.top.equalTo(imgView.snp.bottom)
+        }
+        
+        tablePlaceholderSetText = { [unowned label] text in
+            label.text = text
+        }
+        
+        tablePlaceholder = view
     }
     
     @objc private func handleCloseGesture(gestureRecognizer: UIPanGestureRecognizer) {
@@ -126,14 +199,16 @@ class MainScreenController: UIViewController {
             searchBar.layer.cornerRadius = min(max(gestureRecognizer.translation(in: searchBar).y / 8, 0), 10)
             let k = min(max(gestureRecognizer.translation(in: searchBar).y / 80, 0), 1)
             recipesTable.alpha = 1 - k
-            self.appNameLabel.alpha = k
-            self.appDescriptionLabel.alpha = k
-            self.switchSearchTypeLabel.alpha = k
-            self.searchTypeSwitch.alpha = k
+            tablePlaceholder?.alpha = 1 - k
+            ingredientsCollection.alpha = 1 - k
+            appNameLabel.alpha = k
+            appDescriptionLabel.alpha = k
+            switchSearchTypeLabel.alpha = k
+            searchTypeSwitch.alpha = k
             break
         case .ended:
             if (gestureRecognizer.translation(in: searchBar).y > 40) {
-                resignSearchBar(searchBar)
+                dismissSearchBar(searchBar)
             } else {
                 presentSearchBar(searchBar)
             }
@@ -146,23 +221,21 @@ class MainScreenController: UIViewController {
     private func ingredientDidWrite() {
         guard let newIngredient = searchBar.text else { return }
         ingredients.append(newIngredient)
-//        updateBarVisibility()
+        updateBarVisibility()
         viewModel.reloadRecipes(ingredients: ingredientsFromBar())
         searchBar.text = ""
     }
     
-//    private func updateBarVisibility() {
-//        if (ingredients.count > 0) {
-//            barHeightConstraint.constant = 46
-//        } else {
-//            barHeightConstraint.constant = 0
-//            shownIndexPaths = [IndexPath]()
-//        }
-//        UIView.animate(withDuration: 0.2) {
-//            self.view.layoutIfNeeded()
-//        }
-//        self.addedInredientsBar.reloadData()
-//    }
+    private func updateBarVisibility() {
+        if (ingredients.count > 0) {
+        } else {
+            shownIndexPaths = [IndexPath]()
+        }
+        UIView.animate(withDuration: 0.2) {
+            self.view.layoutIfNeeded()
+        }
+        self.ingredientsCollection.reloadData()
+    }
     
     private func ingredientsFromBar() -> String {
         let result = NSMutableString()
@@ -186,6 +259,7 @@ class MainScreenController: UIViewController {
         searchBarIsActive = true
         setNeedsStatusBarAppearanceUpdate()
         recipesTable.isHidden = false
+        ingredientsCollection.isHidden = false
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
             self.view.layoutIfNeeded()
             self.appNameLabel.alpha = 0
@@ -193,11 +267,13 @@ class MainScreenController: UIViewController {
             self.switchSearchTypeLabel.alpha = 0
             self.searchTypeSwitch.alpha = 0
             self.recipesTable.alpha = 1
+            self.tablePlaceholder?.alpha = 1
+            self.ingredientsCollection.alpha = 1
             searchBar.layer.cornerRadius = 0
         })
     }
     
-    private func resignSearchBar(_ searchBar: SearchBar) {
+    private func dismissSearchBar(_ searchBar: SearchBar) {
         topBarConstraint?.deactivate()
         centerBarConstraint?.activate()
         sidesInsetsBarConstraint?.activate()
@@ -210,9 +286,12 @@ class MainScreenController: UIViewController {
             self.switchSearchTypeLabel.alpha = 1
             self.searchTypeSwitch.alpha = 1
             self.recipesTable.alpha = 0
+            self.tablePlaceholder?.alpha = 0
+            self.ingredientsCollection.alpha = 0
             searchBar.layer.cornerRadius = 10
         }) { (f) in
             self.recipesTable.isHidden = true
+            self.ingredientsCollection.isHidden = true
         }
     }
     
@@ -234,36 +313,42 @@ extension MainScreenController {
         topBarConstraint?.deactivate()
         searchBar.snp.makeConstraints { (ConstraintMaker) in
             centerBarConstraint = ConstraintMaker.center.equalToSuperview().constraint
-            sidesInsetsBarConstraint = ConstraintMaker.left.right.equalTo(view.safeAreaLayoutGuide).inset(10).constraint
+            sidesInsetsBarConstraint = ConstraintMaker.left.right.equalTo(view.safeAreaLayoutGuide).inset(barSideInset).constraint
         }
         
         appDescriptionLabel.snp.makeConstraints { (ConstraintMaker) in
             ConstraintMaker.centerX.equalTo(searchBar)
             ConstraintMaker.bottom.equalTo(view.snp.centerY).offset(-60)
-            ConstraintMaker.right.left.equalToSuperview().inset(20)
+            ConstraintMaker.right.left.equalToSuperview().inset(sideInset)
         }
 
         appNameLabel.snp.makeConstraints { (ConstraintMaker) in
             ConstraintMaker.centerX.equalTo(searchBar)
             ConstraintMaker.bottom.equalTo(appDescriptionLabel.snp.top).inset(-10)
-            ConstraintMaker.right.left.equalToSuperview().inset(20)
+            ConstraintMaker.right.left.equalToSuperview().inset(sideInset)
         }
 
         searchTypeSwitch.snp.makeConstraints { (ConstraintMaker) in
             ConstraintMaker.top.equalTo(view.snp.centerY).offset(40)
-            ConstraintMaker.right.equalTo(view.safeAreaLayoutGuide).inset(20)
+            ConstraintMaker.right.equalTo(view.safeAreaLayoutGuide).inset(sideInset)
         }
 
         switchSearchTypeLabel.snp.makeConstraints { (ConstraintMaker) in
-            ConstraintMaker.right.equalTo(searchTypeSwitch.snp.left).inset(20)
+            ConstraintMaker.right.equalTo(searchTypeSwitch.snp.left).inset(sideInset)
             ConstraintMaker.height.centerY.equalTo(searchTypeSwitch)
-            ConstraintMaker.left.equalTo(view.safeAreaLayoutGuide).inset(20)
+            ConstraintMaker.left.equalTo(view.safeAreaLayoutGuide).inset(sideInset)
         }
-
+        
+        ingredientsCollection.snp.makeConstraints { (ConstraintMaker) in
+            ConstraintMaker.height.equalTo(ingredientCollectionHeight)
+            ConstraintMaker.left.right.equalTo(view.safeAreaLayoutGuide)
+            ConstraintMaker.top.equalTo(searchBar.snp.bottom)
+        }
+        
         recipesTable.snp.makeConstraints { (ConstraintMaker) in
             ConstraintMaker.bottom.equalToSuperview()
             ConstraintMaker.left.right.equalTo(view.safeAreaLayoutGuide)
-            ConstraintMaker.top.equalTo(self.searchBar.snp.bottom)
+            ConstraintMaker.top.equalTo(ingredientsCollection.snp.bottom)
         }
     }
 }
@@ -272,12 +357,10 @@ extension MainScreenController {
 extension MainScreenController: SearchBarDelegate {
     func searchBarButtonDidTouch(_ searchBar: SearchBar) {
         ingredientDidWrite()
-//        resignSearchBar(searchBar)
     }
     
     func searchBarDidEndEditing(_ searchBar: SearchBar) {
         ingredientDidWrite()
-//        resignSearchBar(searchBar)
     }
     
     func searchBarWillBeginEditing(_ searchBar: SearchBar) {
@@ -285,45 +368,37 @@ extension MainScreenController: SearchBarDelegate {
     }
 }
 
-//// MARK: - UICollectionViewDelegate
-//extension RecipeListTableViewController: UICollectionViewDelegate {
-//    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-//        guard !shownIndexPaths.contains(indexPath) else { return }
-//        shownIndexPaths.append(indexPath)
-//        cell.transform = cell.transform.scaledBy(x: 0.5, y: 0.5)
-//        cell.alpha = 0
-//        UIView.animate(withDuration: 0.1) {
-//            cell.alpha = 1
-//            cell.transform = CGAffineTransform.identity
-//        }
-//    }
-//}
-//
-//extension RecipeListTableViewController: UICollectionViewDataSource {
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return ingredients.count
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ingrCellIdentifier, for: indexPath) as? IngredientCell else { fatalError("CollectionView wasn't configured") }
-//        let position = indexPath.row
-//        cell.setText(text: ingredients[position])
-//        cell.removeAction = { [unowned self] button in
-//            self.ingredients.remove(at: position)
-//            self.updateBarVisibility()
-//            self.viewModel.reloadRecipes(ingredients: self.ingredientsFromBar())
-//        }
-//        return cell
-//    }
-//}
+// MARK: - UICollectionViewDelegate
+extension MainScreenController: UICollectionViewDelegate {
+    
+}
+
+// MARK: - UICollectionViewDataSource
+extension MainScreenController: UICollectionViewDataSource {
+     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return ingredients.count
+    }
+
+     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ingrCellIdentifier, for: indexPath) as? IngredientCell else { fatalError("CollectionView wasn't configured") }
+        let position = indexPath.row
+        cell.setText(text: ingredients[position])
+        cell.removeAction = { [unowned self] button in
+            self.ingredients.remove(at: position)
+            self.updateBarVisibility()
+            self.viewModel.reloadRecipes(ingredients: self.ingredientsFromBar())
+        }
+        return cell
+    }
+}
 
 // MARK: - UITableViewDataSource
 extension MainScreenController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    internal func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         recipesVM.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    internal func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let recipeCell = tableView.dequeueReusableCell(withIdentifier: recipeCellIdentifier, for: indexPath) as? RecipeCell else{
             fatalError("TableView wasn't configured")
         }
@@ -334,16 +409,16 @@ extension MainScreenController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate
 extension MainScreenController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    internal func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard indexPath.row == recipesVM.count - 1 else { return }
         viewModel.loadMore()
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
+    internal func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let recipePageViewController = UIStoryboard(name: "RecipePage", bundle: nil)
             .instantiateViewController(withIdentifier: "RecipePageViewController") as? RecipePageViewController else { return }
         recipePageViewController.recipe = recipesVM[indexPath.row]
@@ -354,7 +429,6 @@ extension MainScreenController: UITableViewDelegate {
 }
 
 //MARK: - KeyboardAdditions
-
 extension MainScreenController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

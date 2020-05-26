@@ -18,7 +18,7 @@ class RecipeCell: UITableViewCell{
         addSubview(recipeDescription)
         
         recipeImage.snp.makeConstraints { (ConstraintMaker) in
-            ConstraintMaker.size.equalTo(120).priority(.init(999))
+            ConstraintMaker.size.equalTo(120).priority(999)
             ConstraintMaker.top.bottom.left.equalToSuperview().inset(10)
         }
         
