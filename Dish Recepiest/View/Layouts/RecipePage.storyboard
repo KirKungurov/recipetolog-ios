@@ -50,7 +50,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UMh-Kd-Ky8">
-                                <rect key="frame" x="5" y="509" width="404" height="348"/>
+                                <rect key="frame" x="5" y="509" width="404" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -70,7 +70,7 @@
                             <constraint firstItem="0B8-PG-wQg" firstAttribute="leading" secondItem="dhE-Lt-7ll" secondAttribute="leading" constant="40" id="arW-uk-hwW"/>
                             <constraint firstItem="dhE-Lt-7ll" firstAttribute="trailing" secondItem="UMh-Kd-Ky8" secondAttribute="trailing" constant="5" id="df3-AT-UOb"/>
                             <constraint firstItem="UMh-Kd-Ky8" firstAttribute="top" secondItem="nJo-q2-ALK" secondAttribute="bottom" constant="10" id="fJf-FT-iWH"/>
-                            <constraint firstItem="dhE-Lt-7ll" firstAttribute="bottom" secondItem="UMh-Kd-Ky8" secondAttribute="bottom" constant="5" id="lfG-1R-9m3"/>
+                            <constraint firstItem="dhE-Lt-7ll" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="UMh-Kd-Ky8" secondAttribute="bottom" constant="5" id="lfG-1R-9m3"/>
                             <constraint firstItem="nJo-q2-ALK" firstAttribute="centerX" secondItem="YKC-Ru-6UM" secondAttribute="centerX" id="mXa-gk-9ly"/>
                             <constraint firstItem="ZdU-48-ix9" firstAttribute="leading" secondItem="dhE-Lt-7ll" secondAttribute="leading" constant="5" id="nCe-fj-6Sh"/>
                             <constraint firstItem="dhE-Lt-7ll" firstAttribute="trailing" secondItem="ZdU-48-ix9" secondAttribute="trailing" constant="5" id="nfB-gb-RYA"/>

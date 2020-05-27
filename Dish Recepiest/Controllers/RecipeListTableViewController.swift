@@ -38,26 +38,19 @@ class RecipeListTableViewController: UIViewController{
         viewModel.onRecipesChanged = { [unowned self] in
             self.recipesVM = $0
         }
-        viewModel.reloadRecipes(ingredients: ingredientsFromBar())
+        viewModel.getRecipe(ingredients: self.ingredients)
         addIngredientButton.addTarget(self, action: #selector(buttonTapped(sender:)), for: .touchUpInside)
     }
     
     @objc func buttonTapped(sender: UIView) {
         guard let newIngredient = ingredientsTextField.text else { return }
-        ingredients.append(newIngredient)
+        //костыль, надо пофиксить
+        if newIngredient.trimmingCharacters(in: .whitespaces).trimmingCharacters(in: .punctuationCharacters).count == 0 { return}
+        ingredients.append(newIngredient.trimmingCharacters(in: .whitespacesAndNewlines).trimmingCharacters(in: .punctuationCharacters))
         updateBarVisibility()
-        viewModel.reloadRecipes(ingredients: ingredientsFromBar())
+        viewModel.getRecipe(ingredients: self.ingredients)
         ingredientsTextField.text = ""
         ingredientsTextField.resignFirstResponder();
-    }
-    
-    private func ingredientsFromBar() -> String {
-        let result = NSMutableString()
-        for item in ingredients {
-            result.append(item)
-            result.append(",")
-        }
-        return result as String
     }
     
     private func updateBarVisibility() {
@@ -93,7 +86,7 @@ extension RecipeListTableViewController: UITableViewDataSource{
 extension RecipeListTableViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard indexPath.row == recipesVM.count - 1 else { return }
-        viewModel.loadMore()
+        viewModel.loadMore(ingredients: self.ingredients)
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -136,7 +129,7 @@ extension RecipeListTableViewController: UICollectionViewDataSource{
         cell.removeAction = { [unowned self] button in
             self.ingredients.remove(at: position)
             self.updateBarVisibility()
-            self.viewModel.reloadRecipes(ingredients: self.ingredientsFromBar())
+            self.viewModel.getRecipe(ingredients: self.ingredients)
         }
         return cell
     }

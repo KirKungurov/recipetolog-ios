@@ -9,35 +9,29 @@
 import RealmSwift
 
 final class RecipeRepositoryImpl: RecipeRepository {
+    private let configuration: Realm.Configuration
+
     var realm: Realm {
         do {
-            return try Realm()
+            return try Realm(configuration: configuration)
         } catch {
             fatalError("Realm can't be created")
         }
     }
 
-    func save(_ recipes: [RecipeInfo]) {
-        let recipesObj = recipes.map(RecipeRealm.init(recipe:))
-//        for recipe in recipes{
-//            var recipeIngedientsLinks = [RecipeIngredientRealm]()
-//            for ingredientContainer in recipe.ingredients{
-//                recipeIngedientsLinks.append(RecipeIngredientRealm.init(recipeId: recipe.id, ingredientId: ingredientContainer.ingredient.id))
-//            }
-//        }
+    init(configuration: Realm.Configuration = .defaultConfiguration) {
+        self.configuration = configuration
+    }
+    
+    func save(_ recipes: [Recipe]) {
         try? realm.write {
-            realm.add(recipesObj, update: .modified)
+            realm.add(recipes, update: .modified)
         }
     }
 
-    func getAllRecipes() -> Results<RecipeRealm> {
-        realm.objects(RecipeRealm.self)
-    }
     
-    func getRecipesWithIngrient(ingridients: String) -> Results<RecipeRealm> {
-        //SQL injection
-    
-        realm.objects(RecipeRealm.self).filter("label is not null")
+    func getRecipesWithIngrient() -> Results<Recipe> {
+        return realm.objects(Recipe.self)
     }
 }
 
