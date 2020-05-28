@@ -56,9 +56,9 @@ class RecipeListViewModel: RecipeListViewModelProtocol {
     func getRecipe(ingredients: [String]){
         self.ingredients = ingredients
         self.from = 0
-        recipeFacade.getRecipes(nextUrl: nextUrl, ingredients: ingredients){
+        recipeFacade.getRecipes(nextUrl: nextUrl, ingredients: self.ingredients){
             guard let recipes = $0 else { return }
-            self.recipesVM = recipes.map{RecipeViewModel.init(recipe: $0)}
+            self.recipesVM = recipes.map{RecipeViewModel(recipe: $0)}
         }
     }
     

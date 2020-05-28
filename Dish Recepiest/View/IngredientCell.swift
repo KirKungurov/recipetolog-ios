@@ -64,7 +64,7 @@ class IngredientCell: UICollectionViewCell {
     }
     
     func setText(text: String?) {
-        nameLabel.text = text
+        nameLabel.text = text?.capitalized
         nameLabel.sizeToFit()
     }
     

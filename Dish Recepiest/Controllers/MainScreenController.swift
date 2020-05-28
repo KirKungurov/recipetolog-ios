@@ -46,9 +46,20 @@ class MainScreenController: UIViewController {
                     } else {
                         self.tablePlaceholder?.isHidden = false
                         self.recipesTable.separatorStyle = .none
+                        if (self.ingredients.isEmpty) {
+                            self.tablePlaceholderSetText?(nil)
+                        } else {
+                            self.tablePlaceholderSetText?(NSLocalizedString("TEXT_PLACEHOLDER_NOT_FOUND", comment: ""))
+                        }
                     }
                 })
             }
+        }
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        get {
+            return searchBarIsActive ? .lightContent : .default
         }
     }
     
@@ -123,7 +134,7 @@ class MainScreenController: UIViewController {
         viewModel.onRecipesChanged = { [unowned self] in
             self.recipesVM = $0
         }
-        viewModel.reloadRecipes(ingredients: ingredientsFromBar())
+        viewModel.reloadRecipes(ingredients: ingredients)
         self.view.backgroundColor = UIColor.systemBackground
         view.addSubview(appNameLabel)
         view.addSubview(appDescriptionLabel)
@@ -151,7 +162,7 @@ class MainScreenController: UIViewController {
 
         setupPlaceholder()
         recipesTable.backgroundView = tablePlaceholder
-        tablePlaceholder?.isHidden = true
+        recipesTable.separatorStyle = .none
         
         bottomLayoutConstraint = NSLayoutConstraint.init(item: view as Any, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
     }
@@ -174,18 +185,21 @@ class MainScreenController: UIViewController {
                 
         label.font = UIFont.systemFont(ofSize: 20)
         label.numberOfLines = 0
-        label.text = NSLocalizedString("TEXT_PLACEHOLDER_" + String(Int.random(in: 1...5)), comment: "")
         label.textColor = UIColor.label
         label.textAlignment = .center
         label.snp.makeConstraints { (ConstraintMaker) in
-            ConstraintMaker.left.right.equalToSuperview().inset(20)
-            ConstraintMaker.top.equalTo(imgView.snp.bottom)
+            ConstraintMaker.width.equalToSuperview().multipliedBy(0.95)
+            ConstraintMaker.centerX.equalToSuperview()
+            ConstraintMaker.top.equalTo(imgView.snp.bottom).offset(-20)
         }
         
         tablePlaceholderSetText = { [unowned label] text in
-            label.text = text
+            if (text != nil) {
+                label.text = text
+            } else {
+                label.text = NSLocalizedString("TEXT_PLACEHOLDER_" + String(Int.random(in: 1...5)), comment: "")
+            }
         }
-        
         tablePlaceholder = view
     }
     
@@ -219,37 +233,13 @@ class MainScreenController: UIViewController {
     }
     
     private func ingredientDidWrite() {
-        guard let newIngredient = searchBar.text else { return }
-        ingredients.append(newIngredient)
-        updateBarVisibility()
-        viewModel.reloadRecipes(ingredients: ingredientsFromBar())
+        guard let newIngredient = searchBar.text?.lowercased() else { return }
+        if (newIngredient.trimmingCharacters(in: .whitespacesAndNewlines).trimmingCharacters(in: .punctuationCharacters).count > 1 && !ingredients.contains(newIngredient)) {
+            ingredients.append(newIngredient)
+            ingredientsCollection.reloadData()
+            viewModel.getRecipe(ingredients: ingredients)
+        }
         searchBar.text = ""
-    }
-    
-    private func updateBarVisibility() {
-        if (ingredients.count > 0) {
-        } else {
-            shownIndexPaths = [IndexPath]()
-        }
-        UIView.animate(withDuration: 0.2) {
-            self.view.layoutIfNeeded()
-        }
-        self.ingredientsCollection.reloadData()
-    }
-    
-    private func ingredientsFromBar() -> String {
-        let result = NSMutableString()
-        for item in ingredients {
-            result.append(item)
-            result.append(",")
-        }
-        return result as String
-    }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        get {
-            return searchBarIsActive ? .lightContent : .default
-        }
     }
     
     private func presentSearchBar(_ searchBar: SearchBar) {
@@ -296,6 +286,9 @@ class MainScreenController: UIViewController {
     }
     
     @objc private func switchSearchType(check: UISwitch) {
+        ingredients = []
+        ingredientsCollection.reloadData()
+        recipesTable.reloadData()
         if (check.isOn) {
             searchBar.setPlacholderText(text: NSLocalizedString("WRITE_INGREDIENT", comment: ""))
         } else {
@@ -385,8 +378,8 @@ extension MainScreenController: UICollectionViewDataSource {
         cell.setText(text: ingredients[position])
         cell.removeAction = { [unowned self] button in
             self.ingredients.remove(at: position)
-            self.updateBarVisibility()
-            self.viewModel.reloadRecipes(ingredients: self.ingredientsFromBar())
+            self.ingredientsCollection.reloadData()
+            self.viewModel.getRecipe(ingredients: self.ingredients)
         }
         return cell
     }
@@ -411,7 +404,7 @@ extension MainScreenController: UITableViewDataSource {
 extension MainScreenController: UITableViewDelegate {
     internal func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         guard indexPath.row == recipesVM.count - 1 else { return }
-        viewModel.loadMore()
+        viewModel.loadMore(ingredients: ingredients)
     }
     
     internal func numberOfSections(in tableView: UITableView) -> Int {
