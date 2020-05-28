@@ -90,7 +90,7 @@ class MainScreenController: UIViewController {
     private let searchBar: SearchBar = {
         let bar = SearchBar()
         bar.setButtonBackgroundImage(image: UIImage.init(systemName: "plus"))
-        bar.setPlacholderText(text: NSLocalizedString("WRITE_RECIPE", comment: ""))
+        bar.setPlacholderText(text: NSLocalizedString("WRITE_INGREDIENT", comment: ""))
         return bar
     }()
     
@@ -164,6 +164,9 @@ class MainScreenController: UIViewController {
         setupPlaceholder()
         recipesTable.backgroundView = tablePlaceholder
         recipesTable.separatorStyle = .none
+        
+        searchTypeSwitch.isHidden = true
+        switchSearchTypeLabel.isHidden = true
         
         bottomLayoutConstraint = NSLayoutConstraint.init(item: view as Any, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
     }
