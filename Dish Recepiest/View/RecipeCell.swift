@@ -11,10 +11,55 @@ import Kingfisher
 
 class RecipeCell: UITableViewCell{
     
-    @IBOutlet private var recipeName: UILabel!
-    @IBOutlet private var favoriteButton: UIButton!
-    @IBOutlet private var recipeImage: UIImageView!
-    @IBOutlet private var recipeDescription: UILabel!
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        addSubview(recipeName)
+        addSubview(recipeImage)
+        addSubview(recipeDescription)
+        
+        recipeName.snp.makeConstraints { (ConstraintMaker) in
+            ConstraintMaker.top.equalToSuperview().inset(10)
+            ConstraintMaker.left.right.equalToSuperview().inset(10)
+            ConstraintMaker.height.equalTo(20)
+        }
+                
+        recipeImage.snp.makeConstraints { (ConstraintMaker) in
+            ConstraintMaker.size.equalTo(120).priority(999)
+            ConstraintMaker.top.equalTo(recipeName.snp.bottom).offset(10)
+            ConstraintMaker.bottom.left.equalToSuperview().inset(10)
+        }
+        
+        recipeDescription.snp.makeConstraints { (ConstraintMaker) in
+            ConstraintMaker.top.equalTo(recipeImage)
+            ConstraintMaker.left.equalTo(recipeImage.snp.right).offset(10)
+            ConstraintMaker.right.equalToSuperview().inset(10)
+            ConstraintMaker.bottom.equalToSuperview().inset(15)
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    private var recipeName: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.textColor = UIColor.label
+        return label
+    }()
+    private var recipeImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = 8
+        return imageView
+    }()
+    private var recipeDescription: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.textColor = UIColor.label
+        label.numberOfLines = 0
+        return label
+    }()
     
     private var recipeViewModel: RecipeViewModel?
     

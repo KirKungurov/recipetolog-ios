@@ -34,6 +34,7 @@ class RecipeListTableViewController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        ingredientsTextField.placeholder = NSLocalizedString("WRITE_INGREDIENT", comment: "")
         barHeightConstraint.constant = 0
         viewModel.onRecipesChanged = { [unowned self] in
             self.recipesVM = $0
@@ -115,7 +116,7 @@ extension RecipeListTableViewController: UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let RecipePageViewController = UIStoryboard(name: "RecipePage", bundle: nil)
-            .instantiateViewController(withIdentifier: "RecipePageViewController") as? RecipePageViewController else { return }
+            .instantiateViewController(withIdentifier: "RecipePageViewController") as? RecipeViewController else { return }
         RecipePageViewController.recipe = recipesVM[indexPath.row]
         RecipePageViewController.title = recipesVM[indexPath.row].name
         navigationController?.pushViewController(RecipePageViewController, animated: true)

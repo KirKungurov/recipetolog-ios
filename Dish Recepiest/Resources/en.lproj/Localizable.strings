@@ -1,0 +1,21 @@
+/* 
+  Localizable.strings
+  Dish Recepiest
+
+  Created by stanislav.milke on 24.05.2020.
+  Copyright © 2020 Kirill Kungurov. All rights reserved.
+*/
+
+"RECIPETOLOG" = "Recipetolog";
+"WRITE_INGREDIENT" = "Write ingredient";
+"WRITE_RECIPE" = "Write recipe";
+"INGREDIENT_SEARCH" = "Search by ingredients";
+"APP_DESCRIPRION" = "Smart recipe book";
+"TEXT_PLACEHOLDER_1" = "🍝🍗🍏🥞🥗";
+"TEXT_PLACEHOLDER_2" = "🥗🍝🍗🍏🥞";
+"TEXT_PLACEHOLDER_3" = "🥞🥗🍝🍗🍏";
+"TEXT_PLACEHOLDER_4" = "🍏🥞🥗🍝🍗";
+"TEXT_PLACEHOLDER_5" = "🍗🍏🥞🥗🍝";
+"TEXT_PLACEHOLDER_NOT_FOUND" = "Recipes not found";
+"RECIPE" = "Recipe";
+"INGREDIENTS" = "Ingredients";

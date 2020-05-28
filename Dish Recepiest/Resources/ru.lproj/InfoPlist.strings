@@ -1,0 +1,10 @@
+/* 
+  InfoPlist.strings
+  Dish Recepiest
+
+  Created by stanislav.milke on 24.05.2020.
+  Copyright © 2020 Kirill Kungurov. All rights reserved.
+*/
+
+"CFBundleDisplayName" = "Рецептолог";
+"CFBundleName" = "Рецептолог";

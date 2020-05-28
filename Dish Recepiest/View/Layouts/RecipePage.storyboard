@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -7,10 +7,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Recipe Page View Controller-->
+        <!--Recipe View Controller-->
         <scene sceneID="p85-aB-gzN">
             <objects>
-                <viewController storyboardIdentifier="RecipePageViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="c6m-BI-64K" customClass="RecipePageViewController" customModule="Dish_Recepiest" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="RecipePageViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="c6m-BI-64K" customClass="RecipeViewController" customModule="Dish_Recepiest" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="YKC-Ru-6UM">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
