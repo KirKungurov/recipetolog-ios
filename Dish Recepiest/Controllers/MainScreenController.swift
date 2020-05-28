@@ -18,6 +18,7 @@ class MainScreenController: UIViewController {
     private let recipeCellIdentifier: String = "RecipeCell"
     private let ingrCellIdentifier = "IngredientCell"
     private var ingredients = [String]()
+    private var tmpIngredients = [String]()
     
     private var topBarConstraint: Constraint?
     private var centerBarConstraint: Constraint?
@@ -135,7 +136,7 @@ class MainScreenController: UIViewController {
         viewModel.onRecipesChanged = { [unowned self] in
             self.recipesVM = $0
         }
-        viewModel.reloadRecipes(ingredients: ingredients)
+        viewModel.getRecipe(ingredients: ingredients)
         self.view.backgroundColor = UIColor.systemBackground
         view.addSubview(appNameLabel)
         view.addSubview(appDescriptionLabel)
@@ -156,7 +157,6 @@ class MainScreenController: UIViewController {
         recipesTable.isHidden = true
         recipesTable.register(RecipeCell.self, forCellReuseIdentifier: recipeCellIdentifier)
         
-        ingredientsCollection.delegate = self
         ingredientsCollection.dataSource = self
         ingredientsCollection.isHidden = true
         ingredientsCollection.register(IngredientCell.self, forCellWithReuseIdentifier: ingrCellIdentifier)
@@ -233,6 +233,23 @@ class MainScreenController: UIViewController {
         }
     }
     
+    @objc func showFavoritesToggle() {
+        if (viewModel.isBookmarksLoad) {
+            ingredients = tmpIngredients
+            tmpIngredients = []
+            ingredientsCollectionConstraint?.update(offset: ingredientCollectionHeight)
+            viewModel.getRecipe(ingredients: ingredients)
+        } else {
+            tmpIngredients = ingredients
+            ingredients = []
+            ingredientsCollectionConstraint?.update(offset: 0)
+            viewModel.getFavorites()
+        }
+        viewModel.isBookmarksLoad = !viewModel.isBookmarksLoad
+        searchBar.text = ""
+        searchBar.setButtonBackgroundImage(image: UIImage.init(systemName: viewModel.isBookmarksLoad ? "heart.fill" : "heart"))
+    }
+    
     private func ingredientDidWrite() {
         guard let newIngredient = searchBar.text?.lowercased() else { return }
         if (newIngredient.trimmingCharacters(in: .whitespacesAndNewlines).trimmingCharacters(in: .punctuationCharacters).count > 1 && !ingredients.contains(newIngredient)) {
@@ -268,6 +285,7 @@ class MainScreenController: UIViewController {
         topBarConstraint?.deactivate()
         centerBarConstraint?.activate()
         sidesInsetsBarConstraint?.activate()
+        searchBar.setButtonBackgroundImage(image: UIImage.init(systemName: "plus"))
         searchBarIsActive = false
         setNeedsStatusBarAppearanceUpdate()
         UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseOut, animations: {
@@ -304,6 +322,7 @@ extension MainScreenController {
         searchBar.snp.makeConstraints { (ConstraintMaker) in
             topBarConstraint = ConstraintMaker.top.left.right.equalToSuperview().constraint
         }
+        
         topBarConstraint?.deactivate()
         searchBar.snp.makeConstraints { (ConstraintMaker) in
             centerBarConstraint = ConstraintMaker.center.equalToSuperview().constraint
@@ -334,7 +353,7 @@ extension MainScreenController {
         }
         
         ingredientsCollection.snp.makeConstraints { (ConstraintMaker) in
-            ConstraintMaker.height.equalTo(ingredientCollectionHeight)
+            ingredientsCollectionConstraint = ConstraintMaker.height.equalTo(ingredientCollectionHeight).constraint
             ConstraintMaker.left.right.equalTo(view.safeAreaLayoutGuide)
             ConstraintMaker.top.equalTo(searchBar.snp.bottom)
         }
@@ -350,21 +369,21 @@ extension MainScreenController {
 //MARK: - SearchBarDelegate
 extension MainScreenController: SearchBarDelegate {
     func searchBarButtonDidTouch(_ searchBar: SearchBar) {
-        ingredientDidWrite()
+        if (searchBar.isFirstResponder) {
+            ingredientDidWrite()
+        } else {
+            showFavoritesToggle()
+        }
     }
     
     func searchBarDidEndEditing(_ searchBar: SearchBar) {
-        ingredientDidWrite()
+        searchBar.setButtonBackgroundImage(image: UIImage.init(systemName: viewModel.isBookmarksLoad ? "heart.fill" : "heart"))
     }
     
     func searchBarWillBeginEditing(_ searchBar: SearchBar) {
+        searchBar.setButtonBackgroundImage(image: UIImage.init(systemName: "plus"))
         presentSearchBar(searchBar)
     }
-}
-
-// MARK: - UICollectionViewDelegate
-extension MainScreenController: UICollectionViewDelegate {
-    
 }
 
 // MARK: - UICollectionViewDataSource
@@ -397,6 +416,9 @@ extension MainScreenController: UITableViewDataSource {
             fatalError("TableView wasn't configured")
         }
         recipeCell.setUp(with: recipesVM[indexPath.row])
+        recipeCell.updateFavorite = { [unowned self] sender in
+            self.viewModel.updateFavorite(recipe: self.recipesVM[indexPath.row])
+        }
         return recipeCell
     }
 }

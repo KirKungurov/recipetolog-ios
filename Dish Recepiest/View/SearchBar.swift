@@ -71,21 +71,25 @@ class SearchBar: UIView {
     @discardableResult override func resignFirstResponder() -> Bool {
         return field.resignFirstResponder()
     }
+    
+    override var isFirstResponder: Bool {
+        return field.isFirstResponder
+    }
 }
 
 //MARK: - SearchBarDelegate linkers
 extension SearchBar: UITextFieldDelegate {
     @objc func buttonTouch(button: UIButton) {
         if (delegate != nil) {
-            resignFirstResponder()
             delegate?.searchBarButtonDidTouch(self)
+            resignFirstResponder()
         }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if (delegate != nil) {
+            delegate?.searchBarButtonDidTouch(self)
             resignFirstResponder()
-            delegate?.searchBarDidEndEditing(self)
         }
         return true
     }
@@ -95,6 +99,12 @@ extension SearchBar: UITextFieldDelegate {
             delegate?.searchBarWillBeginEditing(self)
         }
         return true
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if (delegate != nil) {
+            delegate?.searchBarDidEndEditing(self)
+        }
     }
 }
 
