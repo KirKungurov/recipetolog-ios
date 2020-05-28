@@ -21,6 +21,7 @@ class RecipeListTableViewController: UIViewController{
     private let recipeCellIdentifier = "RecipeCell"
     private let ingrCellIdentifier = "IngredientCell"
     private var ingredients = [String]()
+    private var tmpIngredients = [String]()
     private var shownIndexPaths = [IndexPath]()
     
     var viewModel: RecipeListViewModel!
@@ -39,6 +40,7 @@ class RecipeListTableViewController: UIViewController{
             self.recipesVM = $0
         }
         viewModel.getRecipe(ingredients: self.ingredients)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .bookmarks, target: self, action: #selector(getFavorites))
         addIngredientButton.addTarget(self, action: #selector(buttonTapped(sender:)), for: .touchUpInside)
     }
     
@@ -51,6 +53,22 @@ class RecipeListTableViewController: UIViewController{
         viewModel.getRecipe(ingredients: self.ingredients)
         ingredientsTextField.text = ""
         ingredientsTextField.resignFirstResponder();
+    }
+    
+    @objc func getFavorites(){
+        if self.viewModel.isBookmarksLoad{
+            self.ingredients = self.tmpIngredients
+            self.tmpIngredients = []
+            viewModel.getRecipe(ingredients: self.ingredients)
+        } else {
+            self.tmpIngredients = self.ingredients
+            self.ingredients = []
+            self.viewModel.getFavorites()
+        }
+        self.viewModel.isBookmarksLoad = !self.viewModel.isBookmarksLoad
+        updateBarVisibility()
+        ingredientsTextField.text = ""
+        ingredientsTextField.resignFirstResponder()
     }
     
     private func updateBarVisibility() {
@@ -78,6 +96,9 @@ extension RecipeListTableViewController: UITableViewDataSource{
             fatalError("TableView wasn't configured")
         }
         recipeCell.setUp(with: recipesVM[indexPath.row])
+        recipeCell.updateFavorite = { [unowned self] button in
+            self.viewModel.updateFavorite(recipe: self.recipesVM[indexPath.row])
+        }
         return recipeCell
     }
 }
@@ -117,6 +138,7 @@ extension RecipeListTableViewController: UICollectionViewDelegate{
     }
 }
 
+// MARK: - UICollectionViewDataSource
 extension RecipeListTableViewController: UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return ingredients.count
@@ -135,6 +157,7 @@ extension RecipeListTableViewController: UICollectionViewDataSource{
     }
 }
 
+// MARK: - UITextFieldDelegate
 extension RecipeListTableViewController: UITextFieldDelegate{
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if (textField == ingredientsTextField) {

@@ -25,10 +25,24 @@ final class RecipeRepositoryImpl: RecipeRepository {
     
     func save(_ recipes: [Recipe]) {
         try? realm.write {
-            realm.add(recipes, update: .modified)
+            //Чобы не обновлять статус закладки про обычной загрузке рецептов
+            for recipe in recipes{
+                if realm.object(ofType: Recipe.self, forPrimaryKey: recipe.id) == nil {
+                    realm.add(recipe, update: .modified)
+                }
+            }
         }
     }
-
+    
+    func updateBookmark(recipe: Recipe){
+        try? realm.write{
+            recipe.isBookmark = !recipe.isBookmark
+        }
+    }
+    
+    func getBookmarks() -> Results<Recipe>{
+        realm.objects(Recipe.self).filter("isBookmark = true")
+    }
     
     func getRecipesWithIngrient() -> Results<Recipe> {
         return realm.objects(Recipe.self)

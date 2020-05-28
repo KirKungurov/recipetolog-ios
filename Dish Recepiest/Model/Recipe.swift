@@ -14,6 +14,7 @@ class Recipe: Object, Decodable{
     @objc dynamic var imageUrl: String? = ""
     @objc dynamic var source: String? = ""
     @objc dynamic var recipeDescription: String = ""
+    @objc dynamic var isBookmark: Bool = false
     
     var ingredients = List<RecipeIngredient>()
     var directions = List<String>()
@@ -25,7 +26,7 @@ class Recipe: Object, Decodable{
     private enum CodingKeys: String,CodingKey{
         case id,name,imageUrl,source,description,ingredients,directions
     }
-
+    
     required convenience init(from decoder: Decoder) throws{
         self.init()
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -36,6 +37,5 @@ class Recipe: Object, Decodable{
         self.recipeDescription = try container.decode(String.self, forKey: .description)
         self.ingredients = try container.decodeIfPresent(List<RecipeIngredient>.self, forKey: .ingredients) ?? List()
         self.directions = try container.decodeIfPresent(List<String>.self, forKey: .directions) ?? List()
-
     }
 }

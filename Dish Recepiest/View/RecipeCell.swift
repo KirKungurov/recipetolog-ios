@@ -63,6 +63,8 @@ class RecipeCell: UITableViewCell{
     
     private var recipeViewModel: RecipeViewModel?
     
+    var updateFavorite: ((UIButton) -> Void)?
+
     override func prepareForReuse() {
         super.prepareForReuse()
         recipeImage.image = nil
@@ -70,10 +72,29 @@ class RecipeCell: UITableViewCell{
     }
     
     func setUp(with recipe: RecipeViewModel){
+        recipeImage.image = nil
+        recipeViewModel = recipe
         recipeName.text = recipe.name.uppercased()
+        if recipe.isBookmark {
+            favoriteButton.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        } else{
+            favoriteButton.setImage(UIImage(systemName: "heart"), for: .normal)
+        }
         recipeDescription.text = recipe.description
+        favoriteButton.addTarget(self, action: #selector(addToFavorites(sender:)), for: .touchUpInside)
         recipeImage.kf.setImage(
             with: recipe.imageUrl
         )
+    }
+    
+    @objc func addToFavorites(sender: UIButton) {
+        guard let recipeVM = recipeViewModel else { return }
+        if recipeVM.isBookmark {
+            sender.setImage(UIImage(systemName: "heart"), for: .normal)
+            updateFavorite!(sender)
+            return
+        }
+        sender.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        updateFavorite!(sender)
     }
 }

@@ -7,15 +7,15 @@
 //
 
 import Foundation
-import Kingfisher
 
 struct RecipeViewModel {
     
-    private var recipe: Recipe
+    var recipe: Recipe
     
     init(recipe: Recipe){
         self.recipe = recipe
     }
+    
 }
 
 extension RecipeViewModel{
@@ -48,9 +48,12 @@ extension RecipeViewModel{
     
     //Костыль
     public var directions: String{
-        recipe.directions.joined(separator: "\n-").trimmingCharacters(in: .whitespacesAndNewlines)
+        recipe.directions.joined(separator: ";\n").trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
-
+    public var isBookmark: Bool{
+        recipe.isBookmark
+    }
+    
     
 }
