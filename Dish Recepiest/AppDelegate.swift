@@ -20,7 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let viewController = MainScreenController()
         viewController.viewModel = RecipeListViewModel()
         let navigationController = UINavigationController(rootViewController: viewController)
-        navigationController.isNavigationBarHidden = true
+        navigationController.navigationBar.tintColor = UIColor.recipe_greenColor
+        
         window?.rootViewController = navigationController
         return true
     }

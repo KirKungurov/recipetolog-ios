@@ -17,3 +17,5 @@
 "TEXT_PLACEHOLDER_4" = "🍏🥞🥗🍝🍗";
 "TEXT_PLACEHOLDER_5" = "🍗🍏🥞🥗🍝";
 "TEXT_PLACEHOLDER_NOT_FOUND" = "Recipes not found";
+"RECIPE" = "Recipe";
+"INGREDIENTS" = "Ingredients";

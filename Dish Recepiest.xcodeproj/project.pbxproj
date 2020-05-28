@@ -21,7 +21,7 @@
 		9548D29F2471698000143FAB /* RecipeListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9548D29E2471698000143FAB /* RecipeListTableViewController.swift */; };
 		9548D2A12471FE3800143FAB /* RecipeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9548D2A02471FE3800143FAB /* RecipeCell.swift */; };
 		9548D2A524723D0600143FAB /* RecipeListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9548D2A424723D0600143FAB /* RecipeListViewModel.swift */; };
-		9548D2A82472430B00143FAB /* RecipePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9548D2A72472430B00143FAB /* RecipePageViewController.swift */; };
+		9548D2A82472430B00143FAB /* RecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9548D2A72472430B00143FAB /* RecipeViewController.swift */; };
 		955CC4B3246337C7006935CB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 955CC4B2246337C7006935CB /* AppDelegate.swift */; };
 		955CC4B5246337C7006935CB /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 955CC4B4246337C7006935CB /* SceneDelegate.swift */; };
 		955CC4BC246337C8006935CB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 955CC4BB246337C8006935CB /* Assets.xcassets */; };
@@ -54,7 +54,7 @@
 		9548D29E2471698000143FAB /* RecipeListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListTableViewController.swift; sourceTree = "<group>"; };
 		9548D2A02471FE3800143FAB /* RecipeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCell.swift; sourceTree = "<group>"; };
 		9548D2A424723D0600143FAB /* RecipeListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListViewModel.swift; sourceTree = "<group>"; };
-		9548D2A72472430B00143FAB /* RecipePageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipePageViewController.swift; sourceTree = "<group>"; };
+		9548D2A72472430B00143FAB /* RecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeViewController.swift; sourceTree = "<group>"; };
 		955CC4AF246337C7006935CB /* Dish Recepiest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dish Recepiest.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		955CC4B2246337C7006935CB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		955CC4B4246337C7006935CB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -107,7 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				9548D29E2471698000143FAB /* RecipeListTableViewController.swift */,
-				9548D2A72472430B00143FAB /* RecipePageViewController.swift */,
+				9548D2A72472430B00143FAB /* RecipeViewController.swift */,
 				F7CF33262479D0F300364E54 /* MainScreenController.swift */,
 				F7CF33282479D2EA00364E54 /* UIColor+Recipetolog.swift */,
 			);
@@ -351,7 +351,7 @@
 				955CC4B3246337C7006935CB /* AppDelegate.swift in Sources */,
 				950EC03A246B422900EED405 /* RecipeService.swift in Sources */,
 				950EC03C246B42B200EED405 /* RecipeFacade.swift in Sources */,
-				9548D2A82472430B00143FAB /* RecipePageViewController.swift in Sources */,
+				9548D2A82472430B00143FAB /* RecipeViewController.swift in Sources */,
 				950EC042246B45BF00EED405 /* RecipeFacadeImpl.swift in Sources */,
 				F7CF332B2479E1B400364E54 /* SearchBar.swift in Sources */,
 				9548D29D24715D9E00143FAB /* RecipeViewModel.swift in Sources */,
@@ -517,13 +517,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8NAGK392CA;
+				DEVELOPMENT_TEAM = QAF7358Y4P;
 				INFOPLIST_FILE = "Dish Recepiest/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "ru.polis.Dish-Recepiest";
+				PRODUCT_BUNDLE_IDENTIFIER = "ru.polis.Dish-Recepiest-milke";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_VERSION = 5.0;
@@ -537,13 +537,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8NAGK392CA;
+				DEVELOPMENT_TEAM = QAF7358Y4P;
 				INFOPLIST_FILE = "Dish Recepiest/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "ru.polis.Dish-Recepiest";
+				PRODUCT_BUNDLE_IDENTIFIER = "ru.polis.Dish-Recepiest-milke";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_VERSION = 5.0;

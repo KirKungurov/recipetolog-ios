@@ -17,21 +17,21 @@ class RecipeCell: UITableViewCell{
         addSubview(recipeImage)
         addSubview(recipeDescription)
         
-        recipeImage.snp.makeConstraints { (ConstraintMaker) in
-            ConstraintMaker.size.equalTo(120).priority(999)
-            ConstraintMaker.top.bottom.left.equalToSuperview().inset(10)
-        }
-        
         recipeName.snp.makeConstraints { (ConstraintMaker) in
-            ConstraintMaker.top.equalToSuperview().inset(15)
-            ConstraintMaker.left.equalTo(recipeImage.snp.right).offset(20)
-            ConstraintMaker.right.equalToSuperview().inset(10)
+            ConstraintMaker.top.equalToSuperview().inset(10)
+            ConstraintMaker.left.right.equalToSuperview().inset(10)
             ConstraintMaker.height.equalTo(20)
         }
                 
+        recipeImage.snp.makeConstraints { (ConstraintMaker) in
+            ConstraintMaker.size.equalTo(120).priority(999)
+            ConstraintMaker.top.equalTo(recipeName.snp.bottom).offset(10)
+            ConstraintMaker.bottom.left.equalToSuperview().inset(10)
+        }
+        
         recipeDescription.snp.makeConstraints { (ConstraintMaker) in
-            ConstraintMaker.top.equalTo(recipeName).offset(15)
-            ConstraintMaker.left.equalTo(recipeImage.snp.right).offset(20)
+            ConstraintMaker.top.equalTo(recipeImage)
+            ConstraintMaker.left.equalTo(recipeImage.snp.right).offset(10)
             ConstraintMaker.right.equalToSuperview().inset(10)
             ConstraintMaker.bottom.equalToSuperview().inset(15)
         }

@@ -112,6 +112,7 @@ class MainScreenController: UIViewController {
     
     private let recipesTable: UITableView = {
         let tableView = UITableView()
+        tableView.keyboardDismissMode = .onDrag
         return tableView
     }()
     
@@ -412,12 +413,11 @@ extension MainScreenController: UITableViewDelegate {
     }
     
     internal func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let recipePageViewController = UIStoryboard(name: "RecipePage", bundle: nil)
-            .instantiateViewController(withIdentifier: "RecipePageViewController") as? RecipePageViewController else { return }
-        recipePageViewController.recipe = recipesVM[indexPath.row]
-        recipePageViewController.title = recipesVM[indexPath.row].name
-        navigationController?.pushViewController(recipePageViewController, animated: true)
+        let recipeViewController = RecipeViewController()
         tableView.deselectRow(at: indexPath, animated: true)
+        recipeViewController.setupWithViewModel(recipesVM[indexPath.row])
+        recipeViewController.title = recipesVM[indexPath.row].name.uppercased()
+        navigationController?.pushViewController(recipeViewController, animated: true)
     }
 }
 
@@ -425,7 +425,7 @@ extension MainScreenController: UITableViewDelegate {
 extension MainScreenController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
+        self.navigationController?.setNavigationBarHidden(true, animated: animated)
         NotificationCenter.default.addObserver(self,
                                        selector: #selector(self.keyboardWillShowNotification(_:)),
                                        name: UIResponder.keyboardWillShowNotification,
@@ -468,6 +468,7 @@ extension MainScreenController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        self.navigationController?.setNavigationBarHidden(false, animated: animated)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }

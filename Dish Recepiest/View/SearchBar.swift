@@ -33,7 +33,7 @@ class SearchBar: UIView {
         field.snp.makeConstraints { (ConstraintMaker) in
             ConstraintMaker.leading.equalTo(safeAreaLayoutGuide).inset(10)
             ConstraintMaker.top.bottom.equalTo(safeAreaLayoutGuide)
-            ConstraintMaker.height.equalTo(40)
+            ConstraintMaker.height.equalTo(44)
         }
         button.snp.makeConstraints { (ConstraintMaker) in
             ConstraintMaker.trailing.equalTo(safeAreaLayoutGuide).inset(10)
@@ -42,7 +42,7 @@ class SearchBar: UIView {
             ConstraintMaker.size.equalTo(24)
         }
         snp.makeConstraints { (ConstraintMaker) in
-            ConstraintMaker.height.greaterThanOrEqualTo(40)
+            ConstraintMaker.height.greaterThanOrEqualTo(44)
         }
         button.addTarget(self, action: #selector(buttonTouch(button:)), for: .touchUpInside)
         button.tintColor = UIColor.white
