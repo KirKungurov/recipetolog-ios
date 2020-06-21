@@ -18,7 +18,6 @@
 		950EC048246B48F300EED405 /* RecipePage.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 950EC047246B48F300EED405 /* RecipePage.storyboard */; };
 		9548D2972471597500143FAB /* Response.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9548D2962471597500143FAB /* Response.swift */; };
 		9548D29D24715D9E00143FAB /* RecipeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9548D29C24715D9E00143FAB /* RecipeViewModel.swift */; };
-		9548D29F2471698000143FAB /* RecipeListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9548D29E2471698000143FAB /* RecipeListTableViewController.swift */; };
 		9548D2A12471FE3800143FAB /* RecipeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9548D2A02471FE3800143FAB /* RecipeCell.swift */; };
 		9548D2A524723D0600143FAB /* RecipeListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9548D2A424723D0600143FAB /* RecipeListViewModel.swift */; };
 		9548D2A82472430B00143FAB /* RecipeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9548D2A72472430B00143FAB /* RecipeViewController.swift */; };
@@ -51,7 +50,6 @@
 		950EC047246B48F300EED405 /* RecipePage.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = RecipePage.storyboard; sourceTree = "<group>"; };
 		9548D2962471597500143FAB /* Response.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Response.swift; sourceTree = "<group>"; };
 		9548D29C24715D9E00143FAB /* RecipeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeViewModel.swift; sourceTree = "<group>"; };
-		9548D29E2471698000143FAB /* RecipeListTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListTableViewController.swift; sourceTree = "<group>"; };
 		9548D2A02471FE3800143FAB /* RecipeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeCell.swift; sourceTree = "<group>"; };
 		9548D2A424723D0600143FAB /* RecipeListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListViewModel.swift; sourceTree = "<group>"; };
 		9548D2A72472430B00143FAB /* RecipeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeViewController.swift; sourceTree = "<group>"; };
@@ -106,7 +104,6 @@
 		9548D29824715CCA00143FAB /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				9548D29E2471698000143FAB /* RecipeListTableViewController.swift */,
 				9548D2A72472430B00143FAB /* RecipeViewController.swift */,
 				F7CF33262479D0F300364E54 /* MainScreenController.swift */,
 				F7CF33282479D2EA00364E54 /* UIColor+Recipetolog.swift */,
@@ -357,7 +354,6 @@
 				9548D29D24715D9E00143FAB /* RecipeViewModel.swift in Sources */,
 				F74711D62475E3C4003693A9 /* IngredientCell.swift in Sources */,
 				F7CF33272479D0F300364E54 /* MainScreenController.swift in Sources */,
-				9548D29F2471698000143FAB /* RecipeListTableViewController.swift in Sources */,
 				955CC4B5246337C7006935CB /* SceneDelegate.swift in Sources */,
 				959CF65E2464AAF4007487FD /* Recipe.swift in Sources */,
 			);
@@ -517,13 +513,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = QAF7358Y4P;
+				DEVELOPMENT_TEAM = 8NAGK392CA;
 				INFOPLIST_FILE = "Dish Recepiest/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "ru.polis.Dish-Recepiest-milke";
+				PRODUCT_BUNDLE_IDENTIFIER = ru.polis.Recipetolog;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_VERSION = 5.0;
@@ -537,13 +534,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = QAF7358Y4P;
+				DEVELOPMENT_TEAM = 8NAGK392CA;
 				INFOPLIST_FILE = "Dish Recepiest/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "ru.polis.Dish-Recepiest-milke";
+				PRODUCT_BUNDLE_IDENTIFIER = ru.polis.Recipetolog;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SWIFT_VERSION = 5.0;
