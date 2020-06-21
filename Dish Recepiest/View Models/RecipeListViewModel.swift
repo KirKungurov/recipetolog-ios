@@ -10,23 +10,27 @@ import Foundation
 
 protocol RecipeListViewModelProtocol {
     typealias RecipesCompletion = ([RecipeViewModel]?) -> Void
-
-    var onRecipesChanged: (([RecipeViewModel]) -> Void)? { get set } 
-    func reloadRecipes(ingredients: [String])
+    var onRecipesChanged: (([RecipeViewModel]) -> Void)? { get set }
+    
+    func getRecipe(ingredients: [String])
     func loadMore(ingredients: [String])
 }
 
 class RecipeListViewModel: RecipeListViewModelProtocol {
-    private let recipeService: RecipeService = RecipeServiceImpl()
+    var onRecipesChanged: (([RecipeViewModel]) -> Void)?
+
     private let recipeFacade: RecipeFacade = RecipeFacadeImpl(recipeRepostory: RecipeRepositoryImpl(), recipeService: RecipeServiceImpl())
+    
     private var recipesVM = [RecipeViewModel](){
         didSet{
             onRecipesChanged?(recipesVM)
         }
     }
+    var isBookmarksLoad = false
     private var from: Int = 0
     private var count: Int = 20
     private var ingredients: [String] = []
+    
     private var nextUrl:  URL? {
         var components = URLComponents()
         components.scheme = "https"
@@ -40,30 +44,28 @@ class RecipeListViewModel: RecipeListViewModelProtocol {
         return components.url
     }
     
-    var onRecipesChanged: (([RecipeViewModel]) -> Void)?
-    
-    func reloadRecipes(ingredients: [String]){
-        self.ingredients = ingredients
-        self.from = 0
-        self.recipesVM = []
-        recipeFacade.getRecipes(nextUrl: nextUrl, ingredients: self.ingredients){
-            guard let newRecipes = $0 else { return }
-            self.recipesVM = newRecipes.map{RecipeViewModel(recipe: $0)}
-        }
-        self.from += self.count
-    }
-    
     func getRecipe(ingredients: [String]){
         self.ingredients = ingredients
         self.from = 0
-        recipeFacade.getRecipes(nextUrl: nextUrl, ingredients: ingredients){
+        recipeFacade.getRecipes(nextUrl: nextUrl, ingredients: self.ingredients){
             guard let recipes = $0 else { return }
-            self.recipesVM = recipes.map{RecipeViewModel.init(recipe: $0)}
+            self.recipesVM = recipes.map{RecipeViewModel(recipe: $0)}
         }
     }
     
     func loadMore(ingredients: [String]){
         self.from += self.count
         recipeFacade.loadMore(nextUrl: nextUrl)
+    }
+    
+    func updateFavorite(recipe: RecipeViewModel){
+        recipeFacade.updateRecipe(recipe: recipe)
+    }
+    
+    func getFavorites(){
+        recipeFacade.getFavorites{
+            guard let recipes = $0 else { return }
+            self.recipesVM = recipes.map{RecipeViewModel.init(recipe: $0)}
+        }
     }
 }

@@ -17,10 +17,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.backgroundColor = .white
         window?.makeKeyAndVisible()
 
-        let ViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "RecipeListTableViewController") as! RecipeListTableViewController
-        ViewController.viewModel = RecipeListViewModel()
-        ViewController.title = "Recipetolog"
-        let navigationController = UINavigationController(rootViewController: ViewController)
+        let viewController = MainScreenController()
+        viewController.viewModel = RecipeListViewModel()
+        let navigationController = UINavigationController(rootViewController: viewController)
+        navigationController.navigationBar.tintColor = UIColor.recipe_greenColor
+        
         window?.rootViewController = navigationController
         return true
     }

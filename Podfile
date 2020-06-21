@@ -6,5 +6,6 @@ target 'Dish Recepiest' do
     use_frameworks!
     pod 'Kingfisher', :git => 'https://github.com/onevcat/Kingfisher', :branch => 'master'
     pod 'RealmSwift'
+    pod 'SnapKit', '~> 5.0.0'
 
 end

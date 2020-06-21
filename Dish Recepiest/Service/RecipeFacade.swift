@@ -11,4 +11,7 @@ protocol RecipeFacade {
     typealias OnUpdateRecipes = ([Recipe]?) -> Void
     func getRecipes(nextUrl: URL?, ingredients: [String], completion: @escaping OnUpdateRecipes)
     func loadMore(nextUrl: URL?)
+    func updateRecipe(recipe: RecipeViewModel)
+    func getFavorites(completion: @escaping OnUpdateRecipes)
+    func getBookmarks(completion: @escaping OnUpdateRecipes)
 }

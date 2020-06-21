@@ -44,4 +44,21 @@ final class RecipeFacadeImpl: RecipeFacade{
             completion(result)
         }
     }
+    
+    func updateRecipe(recipe: RecipeViewModel){
+        recipeRepository.updateBookmark(recipe: recipe.recipe)
+    }
+    
+    func getBookmarks(completion: @escaping OnUpdateRecipes){
+        let bookmarks = recipeRepository.getBookmarks()
+        recipeToken = bookmarks.observe{ _ in
+            completion(bookmarks.map{$0})
+        }
+    }
+    func getFavorites(completion: @escaping OnUpdateRecipes){
+        let favoriteRecipes = recipeRepository.getBookmarks()
+        recipeToken = favoriteRecipes.observe { _ in
+            completion(favoriteRecipes.map{$0})
+        }
+    }
 }
